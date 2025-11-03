@@ -1,0 +1,17 @@
+{
+    "Index Fund": {
+        "distribution_type": "normal",
+        "mean_return": 0.08,
+        "std_dev": 0.15
+    },
+    "Aggressive Tech Stock": {
+        "distribution_type": "normal",
+        "mean_return": 0.12,
+        "std_dev": 0.35
+    },
+    "Corporate Bonds": {
+        "distribution_type": "normal",
+        "mean_return": 0.04,
+        "std_dev": 0.06
+    }
+}
