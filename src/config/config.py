@@ -45,9 +45,9 @@ class Asset:
     std_dev: float  # Volatility (e.g., 0.15 for 15%)
 
 
-# asset_nodes_config = Config.configure_csv_data_node(
-#     id="assets", default_path="data/assets.csv", exposed_type=Asset, scop=Scope.GLOBAL
-# )
 asset_nodes_config = Config.configure_json_data_node(
     id="assets", default_path="./data/assets.json", scope=Scope.GLOBAL
-)  # , exposed_type=Asset, scope=Scope.GLOBAL
+)
+investment_scenario_node_config = Config.configure_data_node(
+    id="investment_scenario",
+)

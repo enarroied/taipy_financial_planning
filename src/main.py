@@ -17,18 +17,23 @@ pages = {
 }
 if __name__ == "__main__":
     number_trials = 1_000
-    initial_capital = 0
-    investment_horizon_years = 0
-    # products = {"Growth Stock": ,
-    #             "Index Fund": ,
-    #             "Corporate Bond": ,
-    #             "Liquidity": ,
-    # }
+    initial_capital = 10_000
+    investment_horizon_years = 10
 
     product_name_1 = ""
     percentage_1 = 0
     product_name_2 = ""
     percentage_2 = 0
+    product_name_3 = ""
+    percentage_3 = 0
+    product_name_4 = ""
+    percentage_4 = 0
+    product_name_5 = ""
+    percentage_5 = 0
+    product_name_6 = ""
+    percentage_6 = 0
+
+    new_scenario_name = ""
 
     Orchestrator().run()
     # scenario_wine = tp.create_scenario(calculate_wine_yield_scenario)
