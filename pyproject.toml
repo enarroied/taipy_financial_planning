@@ -9,3 +9,8 @@ dependencies = [
     "plotly>=6.4.0",
     "taipy>=4.1.0",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.3",
+]

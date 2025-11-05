@@ -2,8 +2,6 @@
 import json
 from dataclasses import dataclass
 
-import numpy as np
-
 from taipy import Config, Scope
 
 

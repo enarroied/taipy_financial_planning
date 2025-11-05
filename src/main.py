@@ -1,4 +1,8 @@
 # from config.config import calculate_investment_scenario
+import taipy as tp
+from taipy import Orchestrator
+from taipy.gui import Gui
+
 from config.config import asset_nodes_config
 from pages import (
     asset_creation_page,
@@ -6,10 +10,6 @@ from pages import (
     root,
     scenario_creation_page,
 )
-from taipy.gui import Gui
-
-import taipy as tp
-from taipy import Orchestrator
 
 pages = {
     "/": root,

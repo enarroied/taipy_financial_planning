@@ -1,19 +1,4 @@
 from dataclasses import dataclass
-from typing import Dict, List
-
-import numpy as np
-
-import pandas as pd
-
-
-@dataclass
-class Asset:
-    """Product defined in Tab 1 (Asset Management)."""
-
-    name: str
-    distribution_type: str  # e.g., "normal"
-    mean_return: float  # e.g., 0.08
-    std_dev: float  # e.g., 0.15
 
 
 @dataclass
@@ -24,4 +9,5 @@ class Scenario:
     horizon_years: int
     num_trials: int
     # List of (Asset, Weight) tuples for the portfolio composition
-    portfolio_composition: List[tuple[Asset, float]]
+
+    # portfolio_composition: List[tuple[Asset, float]]

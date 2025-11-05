@@ -1,4 +1,5 @@
 import taipy.gui.builder as tgb
+
 from algorithms import (
     create_new_asset,
     edit_asset,

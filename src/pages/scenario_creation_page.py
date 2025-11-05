@@ -1,11 +1,8 @@
 from dataclasses import dataclass
 from typing import List
 
-import numpy as np
 import taipy.gui.builder as tgb
 from taipy.gui import notify
-
-import pandas as pd
 
 
 @dataclass
