@@ -1,9 +1,11 @@
 # from config.config import calculate_investment_scenario
 from config.config import asset_nodes_config
-from pages.asset_creation_page import asset_creation_page
-from pages.compare_scenarios_page import compare_scenarios_page
-from pages.root import root
-from pages.scenario_creation_page import scenario_creation_page
+from pages import (
+    asset_creation_page,
+    compare_scenarios_page,
+    root,
+    scenario_creation_page,
+)
 from taipy.gui import Gui
 
 import taipy as tp
@@ -36,9 +38,6 @@ if __name__ == "__main__":
     new_scenario_name = ""
 
     Orchestrator().run()
-    # scenario_wine = tp.create_scenario(calculate_wine_yield_scenario)
-    # scenario_wine.wine_color.write(wine_color)
-    # scenario_wine.season.write(season)
 
     asset_nodes = tp.create_global_data_node(asset_nodes_config)
     asset_nodes_dict = asset_nodes.read()
