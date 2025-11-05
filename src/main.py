@@ -42,10 +42,16 @@ if __name__ == "__main__":
     asset_nodes = tp.create_global_data_node(asset_nodes_config)
     asset_nodes_dict = asset_nodes.read()
     asset_list = list(asset_nodes_dict.keys())
-    selected_asset_for_edit = asset_list[0]
+    # selected_asset_for_edit = asset_list[0]
+
+    # For asset edits:
+    selected_asset_for_edit = ""
+    asset_for_edit_distribution_type = ""
+    asset_for_edit_mean_return = 0
+    asset_for_edit_std_dev = 0
+
     new_asset_name = ""
     selected_asset_for_deletion = ""
-
     delete_asset_dialog = False
 
     Gui(pages=pages).run(

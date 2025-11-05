@@ -3,7 +3,6 @@ from taipy.gui import notify
 
 
 # TODO: Clean these functions and apply some DRY
-# TODO (2): Add an Edit Node Section and remove Data Node element
 def delete_asset(state):
     with state as s:
         asset_nodes_dict = s.asset_nodes.read()
@@ -44,10 +43,70 @@ def create_new_asset(state):
         notify(s, "s", "New Asset Created!")
 
 
+def select_asset_for_edit(state):
+    with state as s:
+        asset_nodes_dict = s.asset_nodes.read()
+        asset_dict = asset_nodes_dict.get(s.selected_asset_for_edit)
+        s.asset_for_edit_distribution_type = asset_dict.get("distribution_type")
+        s.asset_for_edit_mean_return = asset_dict.get("mean_return")
+        s.asset_for_edit_std_dev = asset_dict.get("std_dev")
+
+
+def edit_asset(state):
+    with state as s:
+        asset_nodes_dict = s.asset_nodes.read()
+        asset_dict = asset_nodes_dict.get(s.selected_asset_for_edit)
+        asset_dict["distribution_type"] = s.asset_for_edit_distribution_type
+        asset_dict["mean_return"] = s.asset_for_edit_mean_return
+        asset_dict["std_dev"] = s.asset_for_edit_std_dev
+
+        asset_nodes_dict[s.selected_asset_for_edit] = asset_dict
+        s.asset_nodes.write(asset_nodes_dict)
+
+        clear_asset_edit(state)
+
+
+def clear_asset_edit(state):
+    with state as s:
+        s.selected_asset_for_edit = ""
+        s.asset_for_edit_distribution_type = ""
+        s.asset_for_edit_mean_return = 0
+        s.asset_for_edit_std_dev = 0
+
+
 with tgb.Page() as asset_creation_page:
     tgb.text("## Manage Assets", mode="md")
+    tgb.html("hr")
 
-    tgb.data_node("{asset_nodes}", show_history=False, show_properties=False)
+    tgb.text("## Edit Asset", mode="md")
+
+    tgb.selector(
+        "{selected_asset_for_edit}",
+        lov="{asset_list}",
+        dropdown=True,
+        label="Select Asset",
+        class_name="fullwidth plain",
+        on_change=select_asset_for_edit,
+    )
+    with tgb.layout("1 1 1"):
+        tgb.input("{asset_for_edit_distribution_type}", class_name="fullwidth")
+        tgb.number(
+            "{asset_for_edit_mean_return}",
+            min=0,
+            max=1,
+            step=0.01,
+            class_name="fullwidth",
+        )
+        tgb.number(
+            "{asset_for_edit_std_dev}", min=0, max=1, step=0.01, class_name="fullwidth"
+        )
+
+    tgb.button(
+        label="Update Asset",
+        class_name="fullwidth plain",
+        on_action=edit_asset,
+    )
+
     tgb.html("hr")
     tgb.text("## Create New Asset", mode="md")
     with tgb.layout("1 1"):
@@ -63,7 +122,6 @@ with tgb.Page() as asset_creation_page:
             class_name="fullwidth plain",
             on_action=create_new_asset,
         )
-
     tgb.html("hr")
     tgb.text("## Delete Asset", mode="md")
     with tgb.layout("1 1"):
@@ -85,3 +143,7 @@ with tgb.Page() as asset_creation_page:
             title="Do you really want to delete this asset?",
             labels="Yes!;No",
         )
+
+    tgb.data_node(
+        "{asset_nodes}", show_history=False, show_properties=False, expanded=False
+    )
