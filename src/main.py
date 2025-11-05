@@ -55,7 +55,8 @@ if __name__ == "__main__":
     delete_asset_dialog = False
 
     Gui(pages=pages).run(
-        use_reloader=True,
         title="Investment 💵 Scenarios",
+        favicon="img/favicon.ico",
         dark_mode=False,
+        use_reloader=True,
     )

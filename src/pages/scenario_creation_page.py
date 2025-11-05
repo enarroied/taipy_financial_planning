@@ -1,29 +1,41 @@
-from dataclasses import dataclass
-from typing import List
-
 import taipy.gui.builder as tgb
 from taipy.gui import notify
 
-
-@dataclass
-class Asset:
-    """Product defined in Tab 1 (Asset Management)."""
-
-    name: str
-    distribution_type: str  # e.g., "normal"
-    mean_return: float  # e.g., 0.08
-    std_dev: float  # e.g., 0.15
+from context import Asset, InvestmentScenario
 
 
-@dataclass
-class InvestmentScenario:
-    """All parameters for one simulation run defined in Tab 2."""
+def _select_pecentages(state):
+    with state as s:
+        return [
+            s.percentage_1,
+            s.percentage_2,
+            s.percentage_3,
+            s.percentage_4,
+            s.percentage_5,
+            s.percentage_6,
+        ]
 
-    initial_capital: float
-    horizon_years: int
-    num_trials: int
-    # List of (Asset, Weight) tuples for the portfolio composition
-    portfolio_composition: List[tuple[Asset, float]]
+
+def _select_products(state):
+    with state as s:
+        return [
+            s.product_name_1,
+            s.product_name_2,
+            s.product_name_3,
+            s.product_name_4,
+            s.product_name_5,
+            s.product_name_6,
+        ]
+
+
+def _create_investment_scenario(state, portfolio_composition):
+    with state as s:
+        return InvestmentScenario(
+            initial_capital=s.initial_capital,
+            horizon_years=s.investment_horizon_years,
+            num_trials=s.number_trials,
+            portfolio_composition=portfolio_composition,
+        )
 
 
 def create_scenario(state):
@@ -32,30 +44,14 @@ def create_scenario(state):
             notify(s, "e", "You need to have a name for your Scenario!")
             return
 
-        all_percentages = [
-            s.percentage_1,
-            s.percentage_2,
-            s.percentage_3,
-            s.percentage_4,
-            s.percentage_5,
-            s.percentage_6,
-        ]
-        all_products = [
-            s.product_name_1,
-            s.product_name_2,
-            s.product_name_3,
-            s.product_name_4,
-            s.product_name_5,
-            s.product_name_6,
-        ]
+        all_percentages = _select_pecentages(s)
+        all_products = _select_products(s)
         asset_node_dict = s.asset_nodes.read()
         portfolio_composition = []
         total_percentage = 0
         for product, percentage in zip(all_products, all_percentages):
             if product != "":
                 asset_dict = asset_node_dict.get(product)
-                print(asset_dict)
-
                 asset = Asset(
                     name=product,
                     distribution_type=asset_dict.get("distribution_type"),
@@ -65,16 +61,11 @@ def create_scenario(state):
                 portfolio_composition.append((asset, percentage / 100))
                 total_percentage += percentage
 
-        investment_scenario = InvestmentScenario(
-            initial_capital=s.initial_capital,
-            horizon_years=s.investment_horizon_years,
-            num_trials=s.number_trials,
-            portfolio_composition=portfolio_composition,
-        )
-
         if total_percentage != 100:
             notify(s, "e", "All products must sum 100%!")
             return
+
+        investment_scenario = _create_investment_scenario(s, portfolio_composition)
 
 
 with tgb.Page() as scenario_creation_page:
