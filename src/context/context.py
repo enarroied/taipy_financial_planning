@@ -19,5 +19,4 @@ class InvestmentScenario:
     initial_capital: float
     horizon_years: int
     num_trials: int
-    # List of (Asset, Weight) tuples for the portfolio composition
     portfolio_composition: List[tuple[Asset, float]]

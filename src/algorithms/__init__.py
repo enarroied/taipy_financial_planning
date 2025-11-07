@@ -6,3 +6,10 @@ from algorithms.asset_editing_callbacks import (
 from algorithms.asset_editing_callbacks import (
     select_asset_for_edit as select_asset_for_edit,
 )
+from algorithms.run_scenario import (
+    calculate_initial_allocations as calculate_initial_allocations,
+)
+from algorithms.run_scenario import generate_return_matrix as generate_return_matrix
+from algorithms.run_scenario import (
+    simulate_portfolio_evolution as simulate_portfolio_evolution,
+)
