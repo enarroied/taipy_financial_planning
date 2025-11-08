@@ -9,7 +9,7 @@ from algorithms.asset_editing_callbacks import (
 from algorithms.run_scenario import (
     calculate_initial_allocations as calculate_initial_allocations,
 )
-from algorithms.run_scenario import generate_return_matrix as generate_return_matrix
 from algorithms.run_scenario import (
-    simulate_portfolio_evolution as simulate_portfolio_evolution,
+    calculate_portfolio_evolution as calculate_portfolio_evolution,
 )
+from algorithms.run_scenario import calculate_return_matrix as calculate_return_matrix

@@ -1,7 +1,9 @@
+import taipy as tp
 import taipy.gui.builder as tgb
 from taipy.gui import notify
 
-from context import Asset, InvestmentScenario
+from config.config import generate_investment_scenario_config
+from context import Asset, InvestmentAssumption
 
 
 def _select_pecentages(state):
@@ -28,13 +30,14 @@ def _select_products(state):
         ]
 
 
-def _create_investment_scenario(state, portfolio_composition):
+def _create_investment_assumption(state, portfolio_composition):
     with state as s:
-        return InvestmentScenario(
+        return InvestmentAssumption(
             initial_capital=s.initial_capital,
             horizon_years=s.investment_horizon_years,
             num_trials=s.number_trials,
             portfolio_composition=portfolio_composition,
+            asset_names=[asset.name for asset, _ in portfolio_composition],
         )
 
 
@@ -55,7 +58,7 @@ def create_scenario(state):
                 asset = Asset(
                     name=product,
                     distribution_type=asset_dict.get("distribution_type"),
-                    mean_return=asset_dict.get("mean_retrun"),
+                    mean_return=asset_dict.get("mean_return"),
                     std_dev=asset_dict.get("std_dev"),
                 )
                 portfolio_composition.append((asset, percentage / 100))
@@ -65,7 +68,13 @@ def create_scenario(state):
             notify(s, "e", "All products must sum 100%!")
             return
 
-        investment_scenario = _create_investment_scenario(s, portfolio_composition)
+        investment_assumption = _create_investment_assumption(s, portfolio_composition)
+        new_scenario = tp.create_scenario(
+            generate_investment_scenario_config, name=s.new_scenario_name
+        )
+        print(investment_assumption)
+        new_scenario.investment_assumption.write(investment_assumption)
+        s.selected_scenario = new_scenario
 
 
 with tgb.Page() as scenario_creation_page:
@@ -149,3 +158,6 @@ with tgb.Page() as scenario_creation_page:
         tgb.button(
             "Create Scenario", on_action=create_scenario, class_name="fullwidth plain"
         )
+    tgb.scenario_selector("{selected_scenario}")
+    tgb.scenario("{selected_scenario}")
+    tgb.scenario_dag("{selected_scenario}")

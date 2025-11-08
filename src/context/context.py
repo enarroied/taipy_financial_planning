@@ -13,10 +13,11 @@ class Asset:
 
 
 @dataclass
-class InvestmentScenario:
+class InvestmentAssumption:
     """All parameters for one simulation run defined in Tab 2."""
 
     initial_capital: float
     horizon_years: int
     num_trials: int
     portfolio_composition: List[tuple[Asset, float]]
+    asset_names: List[str]

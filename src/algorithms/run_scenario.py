@@ -3,20 +3,39 @@ from typing import List, Tuple
 import numpy as np
 import pandas as pd
 
-from context import Asset, InvestmentScenario
+from context import InvestmentAssumption
 
 
-def generate_return_matrix(
-    investment_scenario: InvestmentScenario,
+def calculate_initial_allocations(
+    investment_assumption: InvestmentAssumption,
+) -> np.ndarray:
+    """
+    Calculate initial dollar allocations as a NumPy array.
+
+    Returns:
+        Tuple of:
+            - np.ndarray with shape (num_assets,)
+            - List of asset names
+    """
+    initial_capital = investment_assumption.initial_capital
+    portfolio_composition = investment_assumption.portfolio_composition
+    allocations = np.array(
+        [initial_capital * weight for _, weight in portfolio_composition]
+    )
+
+    return allocations
+
+
+def calculate_return_matrix(
+    investment_assumption: InvestmentAssumption,
     seed: int = 42,
 ) -> Tuple[np.ndarray, List[str]]:
     """
     Generate random returns for each asset based on their distribution parameters.
 
     Args:
-        portfolio_composition: List of (Asset, weight) tuples
-        horizon_years: Number of years to simulate
-        num_trials: Number of Monte Carlo iterations
+        investment_scenario: An InvestmentAssumption scenario instance with all the
+            investment information
         seed: Random seed for reproducibility
 
     Returns:
@@ -26,12 +45,12 @@ def generate_return_matrix(
             - List of asset names (to track which column is which)
     """
     np.random.seed(seed)
-    portfolio_composition = investment_scenario.portfolio_composition
-    horizon_years = investment_scenario.horizon_years
+    portfolio_composition = investment_assumption.portfolio_composition
+    horizon_years = investment_assumption.horizon_years
     num_assets = len(portfolio_composition)
 
     # Pre-allocate 3D array: (trials, years, assets)
-    returns = np.zeros((investment_scenario.num_trials, horizon_years, num_assets))
+    returns = np.zeros((investment_assumption.num_trials, horizon_years, num_assets))
 
     for i, (asset, _) in enumerate(portfolio_composition):
         distribution = asset.distribution_type.lower()
@@ -40,7 +59,7 @@ def generate_return_matrix(
             annual_returns = np.random.normal(
                 loc=asset.mean_return,
                 scale=asset.std_dev,
-                size=(investment_scenario.num_trials, horizon_years),
+                size=(investment_assumption.num_trials, horizon_years),
             )
             returns[:, :, i] = 1 + annual_returns
 
@@ -51,7 +70,7 @@ def generate_return_matrix(
             returns[:, :, i] = np.random.lognormal(
                 mean=mu_log,
                 sigma=sigma_log,
-                size=(investment_scenario.num_trials, horizon_years),
+                size=(investment_assumption.num_trials, horizon_years),
             )
 
         else:
@@ -75,10 +94,10 @@ def _get_lognormal_parameters(
     return mu_log, sigma_log
 
 
-def simulate_portfolio_evolution(
+def calculate_portfolio_evolution(
     initial_allocations: np.ndarray,  # Shape: (num_assets,)
     return_matrix: np.ndarray,  # Shape: (num_trials, horizon_years, num_assets)
-    asset_names: List[str],
+    investment_assumption: InvestmentAssumption,
 ) -> pd.DataFrame:
     """
     Simulate portfolio evolution (using vectorized operations).
@@ -86,7 +105,8 @@ def simulate_portfolio_evolution(
     Args:
         initial_allocations: Initial dollar amount for each asset (num_assets,)
         return_matrix: Returns array (num_trials, horizon_years, num_assets)
-        asset_names: List of asset names
+        investment_scenario: An InvestmentAssumption scenario instance with all the
+        investment information (used for the Asset names)
 
     Returns:
         DataFrame with columns: ['iteration', 'year', asset_names..., 'total']
@@ -111,29 +131,8 @@ def simulate_portfolio_evolution(
         "total": total_values_1d,
     }
 
-    for i, asset_name in enumerate(asset_names):
+    for i, asset_name in enumerate(investment_assumption.asset_names):
         data[asset_name] = asset_values_2d[:, i]
 
-    columns = ["iteration", "year"] + asset_names + ["total"]
+    columns = ["iteration", "year"] + investment_assumption.asset_names + ["total"]
     return pd.DataFrame(data)[columns]
-
-
-def calculate_initial_allocations(
-    investment_scenario: InvestmentScenario,
-) -> Tuple[np.ndarray, List[str]]:
-    """
-    Calculate initial dollar allocations as a NumPy array.
-
-    Returns:
-        Tuple of:
-            - np.ndarray with shape (num_assets,)
-            - List of asset names
-    """
-    initial_capital = investment_scenario.initial_capital
-    portfolio_composition = investment_scenario.portfolio_composition
-    asset_names = [asset.name for asset, _ in portfolio_composition]
-    allocations = np.array(
-        [initial_capital * weight for _, weight in portfolio_composition]
-    )
-
-    return allocations, asset_names

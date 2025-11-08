@@ -6,8 +6,8 @@ from taipy.gui import Gui
 from config.config import asset_nodes_config
 from pages import (
     asset_creation_page,
-    compare_scenarios_page,
     root,
+    scenario_comparison_page,
     scenario_creation_page,
 )
 
@@ -15,7 +15,7 @@ pages = {
     "/": root,
     "asset_creation": asset_creation_page,
     "scenario_creation": scenario_creation_page,
-    "compare_scenarios": compare_scenarios_page,
+    "compare_scenarios": scenario_comparison_page,
 }
 if __name__ == "__main__":
     number_trials = 1_000
@@ -53,6 +53,8 @@ if __name__ == "__main__":
     new_asset_name = ""
     selected_asset_for_deletion = ""
     delete_asset_dialog = False
+
+    selected_scenario = None
 
     Gui(pages=pages).run(
         title="Investment 💵 Scenarios",
