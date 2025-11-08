@@ -52,6 +52,8 @@ def select_asset_for_edit(state):
 
 def edit_asset(state):
     with state as s:
+        if s.selected_asset_for_edit == "":
+            return
         asset_nodes_dict = s.asset_nodes.read()
         asset_dict = asset_nodes_dict.get(s.selected_asset_for_edit)
         asset_dict["distribution_type"] = s.asset_for_edit_distribution_type

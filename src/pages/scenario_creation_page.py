@@ -6,6 +6,12 @@ from config.config import generate_investment_scenario_config
 from context import Asset, InvestmentAssumption
 
 
+def has_nonempty_duplicates(input_list):
+    nom_empty_list = [element for element in input_list if element != ""]
+    unique_elements = set(nom_empty_list)
+    return len(nom_empty_list) != len(unique_elements)
+
+
 def _select_pecentages(state):
     with state as s:
         return [
@@ -49,6 +55,10 @@ def create_scenario(state):
 
         all_percentages = _select_pecentages(s)
         all_products = _select_products(s)
+
+        if has_nonempty_duplicates(all_products):
+            notify(s, "e", "Each asset should have one line only!")
+            return
         asset_node_dict = s.asset_nodes.read()
         portfolio_composition = []
         total_percentage = 0
