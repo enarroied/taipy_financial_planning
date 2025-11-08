@@ -17,6 +17,9 @@ pages = {
     "scenario_creation": scenario_creation_page,
     "compare_scenarios": scenario_comparison_page,
 }
+stylekit = {
+    "color_primary": "#5c0329",
+}
 if __name__ == "__main__":
     number_trials = 1_000
     initial_capital = 10_000
@@ -55,10 +58,12 @@ if __name__ == "__main__":
     delete_asset_dialog = False
 
     selected_scenario = None
+    selected_scenario_outcome = None
 
-    Gui(pages=pages).run(
+    Gui(pages=pages, css_file="css/main.css").run(
         title="Investment 💵 Scenarios",
         favicon="img/favicon.ico",
         dark_mode=False,
+        stylekit=stylekit,
         use_reloader=True,
     )

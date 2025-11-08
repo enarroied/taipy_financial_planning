@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Tuple
 
 import numpy as np
 import pandas as pd
@@ -13,9 +13,7 @@ def calculate_initial_allocations(
     Calculate initial dollar allocations as a NumPy array.
 
     Returns:
-        Tuple of:
-            - np.ndarray with shape (num_assets,)
-            - List of asset names
+        - np.ndarray with shape (num_assets,)
     """
     initial_capital = investment_assumption.initial_capital
     portfolio_composition = investment_assumption.portfolio_composition
@@ -29,7 +27,7 @@ def calculate_initial_allocations(
 def calculate_return_matrix(
     investment_assumption: InvestmentAssumption,
     seed: int = 42,
-) -> Tuple[np.ndarray, List[str]]:
+) -> np.ndarray:
     """
     Generate random returns for each asset based on their distribution parameters.
 
@@ -39,10 +37,8 @@ def calculate_return_matrix(
         seed: Random seed for reproducibility
 
     Returns:
-        Tuple of:
-            - np.ndarray with shape (num_trials, horizon_years, num_assets)
-              Values as multiplicative returns (e.g., 1.08 for 8% gain)
-            - List of asset names (to track which column is which)
+        - np.ndarray with shape (num_trials, horizon_years, num_assets)
+            Values as multiplicative returns (e.g., 1.08 for 8% gain)
     """
     np.random.seed(seed)
     portfolio_composition = investment_assumption.portfolio_composition

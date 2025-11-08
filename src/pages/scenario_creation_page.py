@@ -74,11 +74,13 @@ def create_scenario(state):
         )
         print(investment_assumption)
         new_scenario.investment_assumption.write(investment_assumption)
+        new_scenario.submit()
+        s.selected_scenario_outcome = new_scenario.result_portfolio.read()
         s.selected_scenario = new_scenario
 
 
 with tgb.Page() as scenario_creation_page:
-    tgb.text("## Portfolio Estimator", mode="md")
+    tgb.text("## Create **Portfolio** Scenario", mode="md")
 
     with tgb.layout("1 1 1"):
         tgb.slider(
@@ -159,5 +161,5 @@ with tgb.Page() as scenario_creation_page:
             "Create Scenario", on_action=create_scenario, class_name="fullwidth plain"
         )
     tgb.scenario_selector("{selected_scenario}")
-    tgb.scenario("{selected_scenario}")
     tgb.scenario_dag("{selected_scenario}")
+    tgb.table("{selected_scenario_outcome}", rebuild=True)

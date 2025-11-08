@@ -1,7 +1,7 @@
 [project]
 name = "taipy-financial-planning"
 version = "0.1.0"
-description = "Add your description here"
+description = "A demo Monte Carlo application with Taipy"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
@@ -13,4 +13,5 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ruff>=0.14.3",
+    "ty>=0.0.1a25",
 ]

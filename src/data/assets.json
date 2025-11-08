@@ -10,7 +10,7 @@
         "std_dev": 0.35
     },
     "Corporate Bonds": {
-        "distribution_type": "normal",
+        "distribution_type": "lognormal",
         "mean_return": 0.04,
         "std_dev": 0.06
     }

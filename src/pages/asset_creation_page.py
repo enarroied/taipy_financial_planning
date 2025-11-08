@@ -8,8 +8,7 @@ from algorithms import (
 )
 
 with tgb.Page() as asset_creation_page:
-    tgb.text("## Manage Assets", mode="md")
-    tgb.html("hr")
+    tgb.text("## **Manage** Assets", mode="md")
 
     tgb.text("## Edit Asset", mode="md")
 
@@ -22,7 +21,12 @@ with tgb.Page() as asset_creation_page:
         on_change=select_asset_for_edit,
     )
     with tgb.layout("1 1 1"):
-        tgb.input("{asset_for_edit_distribution_type}", class_name="fullwidth")
+        tgb.toggle(
+            "{asset_for_edit_distribution_type}",
+            lov=["normal", "lognormal"],
+            label="asset type",
+            class_name="fullwidth",
+        )
         tgb.number(
             "{asset_for_edit_mean_return}",
             min=0,
