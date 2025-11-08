@@ -72,7 +72,6 @@ def create_scenario(state):
         new_scenario = tp.create_scenario(
             generate_investment_scenario_config, name=s.new_scenario_name
         )
-        print(investment_assumption)
         new_scenario.investment_assumption.write(investment_assumption)
         new_scenario.submit()
         s.selected_scenario_outcome = new_scenario.result_portfolio.read()
