@@ -32,10 +32,16 @@ with tgb.Page() as asset_creation_page:
             min=0,
             max=1,
             step=0.01,
+            label="Mean Return",
             class_name="fullwidth",
         )
         tgb.number(
-            "{asset_for_edit_std_dev}", min=0, max=1, step=0.01, class_name="fullwidth"
+            "{asset_for_edit_std_dev}",
+            min=0,
+            max=1,
+            step=0.01,
+            label="Standard Deviation",
+            class_name="fullwidth",
         )
 
     tgb.button(
