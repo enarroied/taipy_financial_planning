@@ -1,6 +1,6 @@
 from taipy.gui import notify
 
-from algorithms.callback_helpers import cond_equal_notify, cond_in_notify
+from algorithms.callback_helpers import cond_eq_notify, cond_in_notify
 
 
 def delete_asset(state):
@@ -25,7 +25,7 @@ def open_close_delete_asset_dialog(state, vars, payload):
 def create_new_asset(state):
     with state as s:
         asset_name = s.new_asset_name
-        if cond_equal_notify(s, (asset_name, ""), "New Asset Needs a Name!"):
+        if cond_eq_notify(s, (asset_name, ""), "New Asset Needs a Name!"):
             return
         asset_dict = s.asset_nodes.read()
         assets = asset_dict.keys()

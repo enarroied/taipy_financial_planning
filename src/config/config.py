@@ -4,6 +4,7 @@ from algorithms import (
     calculate_initial_allocations,
     calculate_portfolio_evolution,
     calculate_return_matrix,
+    calculate_summary_statistics,
 )
 
 # data nodes
@@ -21,6 +22,9 @@ return_matrix_node_config = Config.configure_data_node(
 )
 result_portfolio_node_config = Config.configure_csv_data_node(
     id="result_portfolio",
+)
+summary_statistics_node_config = Config.configure_data_node(
+    id="summary_stats",
 )
 # Tasks
 calculate_initial_allocation_task_congig = Config.configure_task(
@@ -45,6 +49,12 @@ calculate_portfolio_evolution_task_config = Config.configure_task(
     ],
     output=result_portfolio_node_config,
 )
+calculate_summary_statistics_task_config = Config.configure_task(
+    id="calculate_summary_statistics",
+    function=calculate_summary_statistics,
+    input=[result_portfolio_node_config, investment_assumption_node_config],
+    output=summary_statistics_node_config,
+)
 # Scenario
 generate_investment_scenario_config = Config.configure_scenario(
     id="calculate_investment",
@@ -52,6 +62,7 @@ generate_investment_scenario_config = Config.configure_scenario(
         calculate_initial_allocation_task_congig,
         calculate_return_matrix_task_config,
         calculate_portfolio_evolution_task_config,
+        calculate_summary_statistics_task_config,
     ],
     additional_data_node_configs=asset_nodes_config,
 )

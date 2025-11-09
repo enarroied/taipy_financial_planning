@@ -1,92 +1,11 @@
-import taipy as tp
 import taipy.gui.builder as tgb
-from taipy.gui import notify
 
-from algorithms.callback_helpers import cond_equal_notify, cond_in_notify
-from config import generate_investment_scenario_config
-from context import Asset, InvestmentAssumption
+from algorithms.scenario_creation_callbacks import create_scenario
+from pages.page_helpers import product_selector_block
 
 
-def has_nonempty_duplicates(input_list):
-    nom_empty_list = [element for element in input_list if element != ""]
-    unique_elements = set(nom_empty_list)
-    return len(nom_empty_list) != len(unique_elements)
-
-
-def _select_pecentages(state):
-    with state as s:
-        return [
-            s.percentage_1,
-            s.percentage_2,
-            s.percentage_3,
-            s.percentage_4,
-            s.percentage_5,
-            s.percentage_6,
-        ]
-
-
-def _select_products(state):
-    with state as s:
-        return [
-            s.product_name_1,
-            s.product_name_2,
-            s.product_name_3,
-            s.product_name_4,
-            s.product_name_5,
-            s.product_name_6,
-        ]
-
-
-def _create_investment_assumption(state, portfolio_composition):
-    with state as s:
-        return InvestmentAssumption(
-            initial_capital=s.initial_capital,
-            horizon_years=s.investment_horizon_years,
-            num_trials=s.number_trials,
-            portfolio_composition=portfolio_composition,
-            asset_names=[asset.name for asset, _ in portfolio_composition],
-        )
-
-
-def create_scenario(state):
-    with state as s:
-        if s.new_scenario_name == "":
-            notify(s, "e", "You need to have a name for your Scenario!")
-            return
-
-        all_percentages = _select_pecentages(s)
-        all_products = _select_products(s)
-
-        if has_nonempty_duplicates(all_products):
-            notify(s, "e", "Each asset should have one line only!")
-            return
-        asset_node_dict = s.asset_nodes.read()
-        portfolio_composition = []
-        total_percentage = 0
-        for product, percentage in zip(all_products, all_percentages):
-            if product != "":
-                asset_dict = asset_node_dict.get(product)
-                asset = Asset(
-                    name=product,
-                    distribution_type=asset_dict.get("distribution_type"),
-                    mean_return=asset_dict.get("mean_return"),
-                    std_dev=asset_dict.get("std_dev"),
-                )
-                portfolio_composition.append((asset, percentage / 100))
-                total_percentage += percentage
-
-        if total_percentage != 100:
-            notify(s, "e", "All products must sum 100%!")
-            return
-
-        investment_assumption = _create_investment_assumption(s, portfolio_composition)
-        new_scenario = tp.create_scenario(
-            generate_investment_scenario_config, name=s.new_scenario_name
-        )
-        new_scenario.investment_assumption.write(investment_assumption)
-        new_scenario.submit()
-        s.selected_scenario_outcome = new_scenario.result_portfolio.read()
-        s.selected_scenario = new_scenario
+def change_scenario(state):
+    pass
 
 
 with tgb.Page() as scenario_creation_page:
@@ -110,66 +29,38 @@ with tgb.Page() as scenario_creation_page:
         )
 
     with tgb.part():
-        with tgb.layout("1 1 1"):
-            tgb.text("**Select Product 1**", mode="md")
-            tgb.selector("{product_name_1}", lov="{asset_list}", dropdown=True)
-            tgb.number(
-                "{percentage_1}",
-                min=0,
-                max=100,
-                class_name="fullwidth",
-            )
-        with tgb.layout("1 1 1"):
-            tgb.text("**Select Product 2**", mode="md")
-            tgb.selector("{product_name_2}", lov="{asset_list}", dropdown=True)
-            tgb.number(
-                "{percentage_2}",
-                min=0,
-                max=100,
-                class_name="fullwidth",
-            )
-        with tgb.layout("1 1 1"):
-            tgb.text("**Select Product 3**", mode="md")
-            tgb.selector("{product_name_3}", lov="{asset_list}", dropdown=True)
-            tgb.number(
-                "{percentage_3}",
-                min=0,
-                max=100,
-                class_name="fullwidth",
-            )
-        with tgb.layout("1 1 1"):
-            tgb.text("**Select Product 4**", mode="md")
-            tgb.selector("{product_name_4}", lov="{asset_list}", dropdown=True)
-            tgb.number(
-                "{percentage_4}",
-                min=0,
-                max=100,
-                class_name="fullwidth",
-            )
-        with tgb.layout("1 1 1"):
-            tgb.text("**Select Product 5**", mode="md")
-            tgb.selector("{product_name_5}", lov="{asset_list}", dropdown=True)
-            tgb.number(
-                "{percentage_5}",
-                min=0,
-                max=100,
-                class_name="fullwidth",
-            )
-        with tgb.layout("1 1 1"):
-            tgb.text("**Select Product 6**", mode="md")
-            tgb.selector("{product_name_6}", lov="{asset_list}", dropdown=True)
-            tgb.number(
-                "{percentage_6}",
-                min=0,
-                max=100,
-                class_name="fullwidth",
-            )
+        product_selector_block(
+            "1", "{product_name_1}", "{asset_list}", "{percentage_1}"
+        )
+        product_selector_block(
+            "2", "{product_name_2}", "{asset_list}", "{percentage_2}"
+        )
+        product_selector_block(
+            "3", "{product_name_3}", "{asset_list}", "{percentage_3}"
+        )
+        product_selector_block(
+            "4", "{product_name_4}", "{asset_list}", "{percentage_4}"
+        )
+        product_selector_block(
+            "5", "{product_name_5}", "{asset_list}", "{percentage_5}"
+        )
+        product_selector_block(
+            "6", "{product_name_6}", "{asset_list}", "{percentage_6}"
+        )
 
     with tgb.layout("1 2"):
         tgb.input("{new_scenario_name}", label="Enter Scenario Name")
         tgb.button(
             "Create Scenario", on_action=create_scenario, class_name="fullwidth plain"
         )
-    tgb.scenario_selector("{selected_scenario}")
-    tgb.scenario_dag("{selected_scenario}")
-    tgb.table("{selected_scenario_outcome}", rebuild=True)
+    # New Part:
+    # tgb.scenario_dag("{selected_scenario}")  # TODO: remove
+    with tgb.layout("1 2"):
+        tgb.scenario_selector("{selected_scenario}", on_change=change_scenario)
+        with tgb.part():
+            tgb.table(
+                "{selected_scenario_outcome}",
+                rebuild=True,
+                page_size=20,
+                number_format="%,d",
+            )

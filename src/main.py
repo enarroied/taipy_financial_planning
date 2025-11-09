@@ -4,6 +4,7 @@ from taipy import Orchestrator
 from taipy.gui import Gui
 
 from config import asset_nodes_config
+from create_demo_scenarios import scenario1, scenario2, scenario3
 from pages import (
     asset_creation_page,
     root,
@@ -57,8 +58,14 @@ if __name__ == "__main__":
     selected_asset_for_deletion = ""
     delete_asset_dialog = False
 
-    selected_scenario = None
-    selected_scenario_outcome = None
+    # Submit demo scenarios:
+    for scenario in [scenario1, scenario2, scenario3]:
+        scenario.submit()
+        selected_scenario = scenario
+        selected_scenario_outcome = scenario.result_portfolio.read()
+
+    # selected_scenario = None
+    # selected_scenario_outcome = None
 
     Gui(pages=pages, css_file="css/main.css").run(
         title="Investment 💵 Scenarios",
