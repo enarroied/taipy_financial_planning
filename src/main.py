@@ -3,7 +3,7 @@ import taipy as tp
 from taipy import Orchestrator
 from taipy.gui import Gui
 
-from config.config import asset_nodes_config
+from config import asset_nodes_config
 from pages import (
     asset_creation_page,
     root,

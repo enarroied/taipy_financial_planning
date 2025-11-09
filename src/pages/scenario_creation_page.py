@@ -2,7 +2,8 @@ import taipy as tp
 import taipy.gui.builder as tgb
 from taipy.gui import notify
 
-from config.config import generate_investment_scenario_config
+from algorithms.callback_helpers import cond_equal_notify, cond_in_notify
+from config import generate_investment_scenario_config
 from context import Asset, InvestmentAssumption
 
 

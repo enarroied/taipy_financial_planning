@@ -1,5 +1,7 @@
 from taipy.gui import notify
 
+from algorithms.callback_helpers import cond_equal_notify, cond_in_notify
+
 
 def delete_asset(state):
     with state as s:
@@ -23,22 +25,26 @@ def open_close_delete_asset_dialog(state, vars, payload):
 def create_new_asset(state):
     with state as s:
         asset_name = s.new_asset_name
-        if asset_name == "":
-            notify(s, "w", "New Asset Needts to Have a Name!")
+        if cond_equal_notify(s, (asset_name, ""), "New Asset Needs a Name!"):
             return
-        asset_nodes_dict = s.asset_nodes.read()
-        if asset_name in asset_nodes_dict.keys():
-            notify(s, "w", "This Asset Name Exists Already!")
+        asset_dict = s.asset_nodes.read()
+        assets = asset_dict.keys()
+        if cond_in_notify(s, (asset_name, assets), "This Asset Exists!"):
             return
-        asset_nodes_dict[asset_name] = {
-            "distribution_type": "normal",
-            "mean_return": 0.00,
-            "std_dev": 0.00,
-        }
-        s.asset_nodes.write(asset_nodes_dict)
-        s.asset_list = list(asset_nodes_dict.keys())
+        asset_dict = _add_empty_asset(asset_dict, asset_name)
+        s.asset_nodes.write(asset_dict)
+        s.asset_list = list(asset_dict.keys())
         s.new_asset_name = ""
         notify(s, "s", "New Asset Created!")
+
+
+def _add_empty_asset(asset_dict, asset_name):
+    asset_dict[asset_name] = {
+        "distribution_type": "lognormal",
+        "mean_return": 0.00,
+        "std_dev": 0.00,
+    }
+    return asset_dict
 
 
 def select_asset_for_edit(state):
