@@ -1,5 +1,4 @@
 import taipy as tp
-from taipy.gui import notify
 
 from algorithms.callback_helpers import (
     cond_eq_notify,
