@@ -8,3 +8,7 @@ button:hover {
   background-color: #ff016f !important;
   color: #fff;
 }
+.card-number{
+  color: #ff016f;
+  font-size: 22px !important;
+}

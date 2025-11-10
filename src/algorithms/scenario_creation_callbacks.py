@@ -3,6 +3,7 @@ from taipy.gui import notify
 
 from algorithms.callback_helpers import (
     cond_eq_notify,
+    cond_in_notify,
     cond_neq_notify,
     has_nonempty_duplicates_notify,
 )
@@ -13,12 +14,12 @@ from context import Asset, InvestmentAssumption
 def _select_pecentages(state):
     with state as s:
         return [
-            s.percentage_1,
-            s.percentage_2,
-            s.percentage_3,
-            s.percentage_4,
-            s.percentage_5,
-            s.percentage_6,
+            int(s.percentage_1),
+            int(s.percentage_2),
+            int(s.percentage_3),
+            int(s.percentage_4),
+            int(s.percentage_5),
+            int(s.percentage_6),
         ]
 
 
@@ -37,9 +38,9 @@ def _select_products(state):
 def _create_investment_assumption(state, portfolio_composition):
     with state as s:
         return InvestmentAssumption(
-            initial_capital=s.initial_capital,
-            horizon_years=s.investment_horizon_years,
-            num_trials=s.number_trials,
+            initial_capital=int(s.initial_capital),
+            horizon_years=int(s.investment_horizon_years),
+            num_trials=int(s.number_trials),
             portfolio_composition=portfolio_composition,
             asset_names=[asset.name for asset, _ in portfolio_composition],
         )
@@ -67,6 +68,9 @@ def _create_portfolio_composition(state, all_products, all_percentages):
 def create_scenario(state):
     with state as s:
         if cond_eq_notify(s, (s.new_scenario_name, ""), "Scenario has no name!"):
+            return
+        sc_names = [scenario.name for scenario in tp.get_scenarios()]
+        if cond_in_notify(s, (s.new_scenario_name, sc_names), "Scenario name Exists!"):
             return
 
         all_percentages = _select_pecentages(s)

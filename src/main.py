@@ -63,7 +63,7 @@ if __name__ == "__main__":
         scenario.submit()
         selected_scenario = scenario
         selected_scenario_outcome = scenario.result_portfolio.read()
-
+        summary_stats = scenario.summary_stats.read()
     # selected_scenario = None
     # selected_scenario_outcome = None
 
