@@ -21,6 +21,7 @@ class InvestmentAssumption:
     num_trials: int
     portfolio_composition: List[tuple[Asset, float]]
     asset_names: List[str]
+    simple_portfolio_composition: List[tuple[str, float]]
 
 
 @dataclass(frozen=True)

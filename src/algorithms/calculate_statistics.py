@@ -2,6 +2,9 @@
 estimates
 """
 
+from typing import Dict
+
+import numpy as np
 import pandas as pd
 
 from context import InvestmentAssumption, SummaryStatistics
@@ -61,3 +64,75 @@ def calculate_summary_statistics(
             (final_values < initial_capital).sum() / len(final_values) * 100, 2
         ),
     )
+
+
+def calculate_drawdown_statistics(results_df: pd.DataFrame) -> Dict[str, float]:
+    """
+    Calculate maximum drawdown statistics (worst peak-to-trough decline).
+
+    Args:
+        results_df: Results from simulate_portfolio_evolution
+
+    Returns:
+        Dictionary with drawdown metrics
+    """
+    max_drawdowns = []
+
+    for iteration in results_df["iteration"].unique():
+        iteration_data = results_df[results_df["iteration"] == iteration].sort_values(
+            "year"
+        )
+        values = iteration_data["total"].to_numpy()
+
+        running_max = np.maximum.accumulate(values)
+        drawdowns = (values - running_max) / running_max * 100
+        max_drawdowns.append(drawdowns.min())
+
+    max_drawdowns = np.array(max_drawdowns)
+    return {
+        "mean_max_drawdown": max_drawdowns.mean(),
+        "median_max_drawdown": np.median(max_drawdowns),
+        "worst_max_drawdown": max_drawdowns.min(),
+        "best_max_drawdown": max_drawdowns.max(),
+    }
+
+
+def calculate_time_series_statistics(
+    results_df: pd.DataFrame, investment_assumption: InvestmentAssumption
+) -> pd.DataFrame:
+    """
+    Calculate mean, median, and percentiles for each year across all iterations.
+
+    Args:
+        results_df: Results from simulate_portfolio_evolution
+        investment_assumption: Used to get the starting investment amount
+
+    Returns:
+        DataFrame with columns: year, mean, median, std, p5, p25, p75, p95, min, max
+    """
+    initial_capital = investment_assumption.initial_capital
+    time_stats = (
+        results_df.groupby("year")["total"]
+        .agg(
+            [
+                ("mean", "mean"),
+                ("median", "median"),
+                ("std", "std"),
+                ("p5", lambda x: x.quantile(0.05)),
+                ("p10", lambda x: x.quantile(0.10)),
+                ("p25", lambda x: x.quantile(0.25)),
+                ("p75", lambda x: x.quantile(0.75)),
+                ("p90", lambda x: x.quantile(0.90)),
+                ("p95", lambda x: x.quantile(0.95)),
+                ("min", "min"),
+                ("max", "max"),
+            ]
+        )
+        .reset_index()
+    )
+
+    # Add percentage return columns
+    time_stats["mean_return_pct"] = (time_stats["mean"] / initial_capital - 1) * 100
+    time_stats["median_return_pct"] = (time_stats["median"] / initial_capital - 1) * 100
+
+    return time_stats

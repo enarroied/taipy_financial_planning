@@ -16,5 +16,11 @@ from algorithms.calculate_evolution import (
     calculate_return_matrix as calculate_return_matrix,
 )
 from algorithms.calculate_statistics import (
+    calculate_drawdown_statistics as calculate_drawdown_statistics,
+)
+from algorithms.calculate_statistics import (
     calculate_summary_statistics as calculate_summary_statistics,
+)
+from algorithms.calculate_statistics import (
+    calculate_time_series_statistics as calculate_time_series_statistics,
 )

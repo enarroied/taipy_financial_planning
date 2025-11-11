@@ -1,14 +1,11 @@
 import taipy.gui.builder as tgb
 
-from algorithms.scenario_creation_callbacks import create_scenario
-from pages.page_helpers import create_card, product_selector_block
-
-
-def change_scenario(state):
-    with state as s:
-        s.selected_scenario_outcome = s.selected_scenario.result_portfolio.read()
-        s.summary_stats = s.selected_scenario.summary_stats.read()
-
+from algorithms.scenario_creation_callbacks import change_scenario, create_scenario
+from pages.page_helpers import (
+    investment_scenario_selector,
+    product_selector_block,
+    scenario_results_section,
+)
 
 with tgb.Page() as scenario_creation_page:
     tgb.text("## Create **Portfolio** Scenario", mode="md")
@@ -55,49 +52,21 @@ with tgb.Page() as scenario_creation_page:
                 "6", "{product_name_6}", "{asset_list}", "{percentage_6}"
             )
 
-    with tgb.layout("1 2"):
-        tgb.input("{new_scenario_name}", label="Enter Scenario Name")
-        tgb.button(
-            "Create Scenario", on_action=create_scenario, class_name="fullwidth plain"
-        )
-    # New Part:
-    # tgb.scenario_dag("{selected_scenario}")  # TODO: remove
-    with tgb.layout("1 2"):
-        tgb.scenario_selector("{selected_scenario}", on_change=change_scenario)
-        with tgb.part():
-            tgb.text("## Scneario Results", mode="md")
-            tgb.table(
-                "{selected_scenario_outcome}",
-                rebuild=True,
-                page_size=20,
-                number_format="%,d",
+        with tgb.layout("1 2"):
+            tgb.input("{new_scenario_name}", label="Enter Scenario Name")
+            tgb.button(
+                "Create Scenario",
+                on_action=create_scenario,
+                class_name="fullwidth plain",
             )
-            with tgb.layout("1 1 1 1"):
-                create_card("Mean Final Value", "{summary_stats.mean_final_value}")
-                create_card("Median Final Value", "{summary_stats.median_final_value}")
-                create_card("Mean Total Return", "{summary_stats.mean_total_return}")
-                create_card(
-                    "Median Total Return", "{summary_stats.median_total_return}"
-                )
-                create_card(
-                    "Standard Deviation for Total Return",
-                    "{summary_stats.std_total_return}",
-                )
-                create_card("Mean Percentage Return", "{summary_stats.mean_pct_return}")
-                create_card(
-                    "Median Percentage Return", "{summary_stats.median_pct_return}"
-                )
-                create_card(
-                    "Standard Deviation of Percentage Return",
-                    "{summary_stats.std_pct_return}",
-                )
-                create_card("Mean Anualized Return", "{summary_stats.mean_cagr}")
-                create_card("Median Anualized Return", "{summary_stats.median_cagr}")
-                # Risk Metrics
-                create_card("Minimal Final Value", "{summary_stats.min_final_value}")
-                create_card("Maximum Final Value", "{summary_stats.max_final_value}")
-                create_card("5th Percentile", "{summary_stats.percentile_5}")
-                create_card("25th Percentile", "{summary_stats.percentile_25}")
-                create_card("75th Percentile", "{summary_stats.percentile_75}")
-                create_card("95th Percentile", "{summary_stats.percentile_95}")
-                create_card("Probability Loss", "{summary_stats.prob_loss}")
+
+    with tgb.expandable(title="Scenario Results", expanded=True):
+        with tgb.layout("1 2"):
+            investment_scenario_selector(
+                "selected_scenario", "selected_scenario_assumption", change_scenario
+            )
+            scenario_results_section(
+                "selected_scenario_outcome",
+                "selected_summary_stats",
+                "selected_time_series",
+            )

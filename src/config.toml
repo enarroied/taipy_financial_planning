@@ -1,0 +1,67 @@
+[TAIPY]
+
+[DATA_NODE.assets]
+storage_type = "json"
+scope = "GLOBAL:SCOPE"
+default_path = "./data/assets.json"
+
+[DATA_NODE.investment_assumption]
+
+[DATA_NODE.initial_allocation]
+
+[DATA_NODE.return_matrix]
+
+[DATA_NODE.result_portfolio]
+storage_type = "csv"
+
+[DATA_NODE.summary_stats]
+
+[DATA_NODE.drawdown_statistics]
+storage_type = "csv"
+
+[DATA_NODE.time_series]
+storage_type = "csv"
+
+[TASK.calculate_initial_allocation]
+function = "algorithms.calculate_evolution.calculate_initial_allocations:function"
+inputs = [ "investment_assumption:SECTION",]
+outputs = [ "initial_allocation:SECTION",]
+skippable = "False:bool"
+
+[TASK.calculate_return_matrix]
+function = "algorithms.calculate_evolution.calculate_return_matrix:function"
+inputs = [ "investment_assumption:SECTION",]
+outputs = [ "return_matrix:SECTION",]
+skippable = "False:bool"
+
+[TASK.calculate_portfolio_evolution]
+function = "algorithms.calculate_evolution.calculate_portfolio_evolution:function"
+inputs = [ "initial_allocation:SECTION", "return_matrix:SECTION", "investment_assumption:SECTION",]
+outputs = [ "result_portfolio:SECTION",]
+skippable = "False:bool"
+
+[TASK.calculate_summary_statistics]
+function = "algorithms.calculate_statistics.calculate_summary_statistics:function"
+inputs = [ "result_portfolio:SECTION", "investment_assumption:SECTION",]
+outputs = [ "summary_stats:SECTION",]
+skippable = "False:bool"
+
+[TASK.calculate_drawdown_statistics]
+function = "algorithms.calculate_statistics.calculate_drawdown_statistics:function"
+inputs = [ "result_portfolio:SECTION",]
+outputs = [ "drawdown_statistics:SECTION",]
+skippable = "False:bool"
+
+[TASK.calculate_time_series_statistics]
+function = "algorithms.calculate_statistics.calculate_time_series_statistics:function"
+inputs = [ "result_portfolio:SECTION", "investment_assumption:SECTION",]
+outputs = [ "time_series:SECTION",]
+skippable = "False:bool"
+
+[SCENARIO.calculate_investment]
+tasks = [ "calculate_initial_allocation:SECTION", "calculate_return_matrix:SECTION", "calculate_portfolio_evolution:SECTION", "calculate_summary_statistics:SECTION", "calculate_drawdown_statistics:SECTION", "calculate_time_series_statistics:SECTION",]
+additional_data_nodes = [ "assets:SECTION",]
+
+[SCENARIO.calculate_investment.comparators]
+
+[SCENARIO.calculate_investment.sequences]

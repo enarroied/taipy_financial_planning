@@ -10,6 +10,36 @@ from config import generate_investment_scenario_config
 from context import Asset, InvestmentAssumption
 
 
+def create_scenario(state):
+    with state as s:
+        all_percentages = _select_pecentages(s)
+        all_products = _select_products(s)
+        portfolio_composition, total_percentage = _create_portfolio_composition(
+            state, all_products, all_percentages
+        )
+        if _check_conditions(s, total_percentage, all_products):
+            return
+
+        investment_assumption = _create_investment_assumption(s, portfolio_composition)
+        new_scenario = tp.create_scenario(
+            generate_investment_scenario_config, name=s.new_scenario_name
+        )
+        new_scenario.investment_assumption.write(investment_assumption)
+        new_scenario.submit()
+        s.selected_scenario_outcome = new_scenario.result_portfolio.read()
+        s.selected_scenario = new_scenario
+        change_scenario(s)
+
+
+def change_scenario(state):
+    with state as s:
+        s.selected_scenario_outcome = s.selected_scenario.result_portfolio.read()
+        s.selected_scenario_assumption = (
+            s.selected_scenario.investment_assumption.read()
+        )
+        s.selected_summary_stats = s.selected_scenario.summary_stats.read()
+
+
 def _select_pecentages(state):
     with state as s:
         return [
@@ -42,6 +72,9 @@ def _create_investment_assumption(state, portfolio_composition):
             num_trials=int(s.number_trials),
             portfolio_composition=portfolio_composition,
             asset_names=[asset.name for asset, _ in portfolio_composition],
+            simple_portfolio_composition=[
+                (asset.name, percentage) for asset, percentage in portfolio_composition
+            ],
         )
 
 
@@ -64,32 +97,15 @@ def _create_portfolio_composition(state, all_products, all_percentages):
         return portfolio_composition, total_percentage
 
 
-def create_scenario(state):
+def _check_conditions(state, total_percentage, all_products):
+    # By multiplying all binary flags, we get True if one is True
+    sc_names = [scenario.name for scenario in tp.get_scenarios()]
     with state as s:
-        if cond_eq_notify(s, (s.new_scenario_name, ""), "Scenario has no name!"):
-            return
-        sc_names = [scenario.name for scenario in tp.get_scenarios()]
-        if cond_in_notify(s, (s.new_scenario_name, sc_names), "Scenario name Exists!"):
-            return
-
-        all_percentages = _select_pecentages(s)
-        all_products = _select_products(s)
-
-        if has_nonempty_duplicates_notify(s, all_products, "Duplicate Assets!"):
-            return
-
-        portfolio_composition, total_percentage = _create_portfolio_composition(
-            state, all_products, all_percentages
+        return (
+            cond_eq_notify(s, (s.new_scenario_name, ""), "Scenario has no name!")
+            * cond_in_notify(
+                s, (s.new_scenario_name, sc_names), "Scenario name Exists!"
+            )
+            * has_nonempty_duplicates_notify(s, all_products, "Duplicate Assets!")
+            * cond_neq_notify(s, (total_percentage, 100), "All products must sum 100%!")
         )
-
-        if cond_neq_notify(s, (total_percentage, 100), "All products must sum 100%!"):
-            return
-
-        investment_assumption = _create_investment_assumption(s, portfolio_composition)
-        new_scenario = tp.create_scenario(
-            generate_investment_scenario_config, name=s.new_scenario_name
-        )
-        new_scenario.investment_assumption.write(investment_assumption)
-        new_scenario.submit()
-        s.selected_scenario_outcome = new_scenario.result_portfolio.read()
-        s.selected_scenario = new_scenario

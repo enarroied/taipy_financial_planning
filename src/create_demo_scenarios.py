@@ -30,6 +30,11 @@ investment_assumption_1 = InvestmentAssumption(
     num_trials=1000,
     portfolio_composition=[(asset_a, 50), (asset_b, 30), (asset_c, 20)],
     asset_names=["Index Fund (S&P 500)", "Aggressive Tech Stock", "Corporate Bonds"],
+    simple_portfolio_composition=[
+        ("Index Fund (S&P 500)", 50),
+        ("Aggressive Tech Stock", 30),
+        ("Corporate Bonds", 20),
+    ],
 )
 investment_assumption_2 = InvestmentAssumption(
     initial_capital=10_000,
@@ -37,6 +42,11 @@ investment_assumption_2 = InvestmentAssumption(
     num_trials=1000,
     portfolio_composition=[(asset_a, 50), (asset_b, 30), (asset_c, 20)],
     asset_names=["Index Fund (S&P 500)", "Aggressive Tech Stock", "Corporate Bonds"],
+    simple_portfolio_composition=[
+        ("Index Fund (S&P 500)", 50),
+        ("Aggressive Tech Stock", 30),
+        ("Corporate Bonds", 20),
+    ],
 )
 investment_assumption_3 = InvestmentAssumption(
     initial_capital=10_000,
@@ -44,6 +54,9 @@ investment_assumption_3 = InvestmentAssumption(
     num_trials=1000,
     portfolio_composition=[(asset_c, 100)],
     asset_names=["Corporate Bonds"],
+    simple_portfolio_composition=[
+        ("Corporate Bonds", 100),
+    ],
 )
 
 scenario1 = new_scenario = tp.create_scenario(
