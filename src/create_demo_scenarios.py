@@ -28,34 +28,34 @@ investment_assumption_1 = InvestmentAssumption(
     initial_capital=100_000,
     horizon_years=10,
     num_trials=1000,
-    portfolio_composition=[(asset_a, 50), (asset_b, 30), (asset_c, 20)],
+    portfolio_composition=[(asset_a, 0.5), (asset_b, 0.3), (asset_c, 0.2)],
     asset_names=["Index Fund (S&P 500)", "Aggressive Tech Stock", "Corporate Bonds"],
     simple_portfolio_composition=[
-        ("Index Fund (S&P 500)", 50),
-        ("Aggressive Tech Stock", 30),
-        ("Corporate Bonds", 20),
+        ("Index Fund (S&P 500)", 0.50),
+        ("Aggressive Tech Stock", 0.30),
+        ("Corporate Bonds", 0.20),
     ],
 )
 investment_assumption_2 = InvestmentAssumption(
     initial_capital=10_000,
     horizon_years=20,
     num_trials=1000,
-    portfolio_composition=[(asset_a, 50), (asset_b, 30), (asset_c, 20)],
+    portfolio_composition=[(asset_a, 0.50), (asset_b, 0.30), (asset_c, 0.20)],
     asset_names=["Index Fund (S&P 500)", "Aggressive Tech Stock", "Corporate Bonds"],
     simple_portfolio_composition=[
-        ("Index Fund (S&P 500)", 50),
-        ("Aggressive Tech Stock", 30),
-        ("Corporate Bonds", 20),
+        ("Index Fund (S&P 500)", 0.50),
+        ("Aggressive Tech Stock", 0.30),
+        ("Corporate Bonds", 0.20),
     ],
 )
 investment_assumption_3 = InvestmentAssumption(
     initial_capital=10_000,
     horizon_years=20,
     num_trials=1000,
-    portfolio_composition=[(asset_c, 100)],
+    portfolio_composition=[(asset_c, 1)],
     asset_names=["Corporate Bonds"],
     simple_portfolio_composition=[
-        ("Corporate Bonds", 100),
+        ("Corporate Bonds", 1),
     ],
 )
 
