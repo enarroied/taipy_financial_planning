@@ -17,7 +17,6 @@ storage_type = "csv"
 [DATA_NODE.summary_stats]
 
 [DATA_NODE.drawdown_statistics]
-storage_type = "csv"
 
 [DATA_NODE.time_series]
 storage_type = "csv"

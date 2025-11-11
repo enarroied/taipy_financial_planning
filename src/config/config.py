@@ -28,7 +28,7 @@ result_portfolio_node_config = Config.configure_csv_data_node(
 summary_statistics_node_config = Config.configure_data_node(
     id="summary_stats",
 )
-drawdown_statistics_node_config = Config.configure_csv_data_node(
+drawdown_statistics_node_config = Config.configure_data_node(
     id="drawdown_statistics",
 )
 time_series_node_config = Config.configure_csv_data_node(
