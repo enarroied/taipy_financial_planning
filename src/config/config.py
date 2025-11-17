@@ -7,6 +7,7 @@ from algorithms import (
     calculate_return_matrix,
     calculate_summary_statistics,
     calculate_time_series_statistics,
+    plot_confidence_bands,
 )
 
 # data nodes
@@ -33,6 +34,9 @@ drawdown_statistics_node_config = Config.configure_data_node(
 )
 time_series_node_config = Config.configure_csv_data_node(
     id="time_series",
+)
+confidence_bands_node_config = Config.configure_data_node(
+    id="confidence_bands",
 )
 # Tasks
 calculate_initial_allocation_task_congig = Config.configure_task(
@@ -75,6 +79,12 @@ calculate_time_series_statistics_task_config = Config.configure_task(
     input=[result_portfolio_node_config, investment_assumption_node_config],
     output=time_series_node_config,
 )
+plot_confidence_bands_task_config = Config.configure_task(
+    id="plot_confidence_bands",
+    function=plot_confidence_bands,
+    input=[time_series_node_config, investment_assumption_node_config],
+    output=confidence_bands_node_config,
+)
 
 # Scenario
 generate_investment_scenario_config = Config.configure_scenario(
@@ -86,6 +96,7 @@ generate_investment_scenario_config = Config.configure_scenario(
         calculate_summary_statistics_task_config,
         calculate_drawdown_statistics_task_config,
         calculate_time_series_statistics_task_config,
+        plot_confidence_bands_task_config,
     ],
     additional_data_node_configs=asset_nodes_config,
 )

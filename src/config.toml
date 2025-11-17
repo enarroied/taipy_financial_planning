@@ -21,6 +21,8 @@ storage_type = "csv"
 [DATA_NODE.time_series]
 storage_type = "csv"
 
+[DATA_NODE.confidence_bands]
+
 [TASK.calculate_initial_allocation]
 function = "algorithms.calculate_evolution.calculate_initial_allocations:function"
 inputs = [ "investment_assumption:SECTION",]
@@ -57,8 +59,14 @@ inputs = [ "result_portfolio:SECTION", "investment_assumption:SECTION",]
 outputs = [ "time_series:SECTION",]
 skippable = "False:bool"
 
+[TASK.plot_confidence_bands]
+function = "algorithms.plot_confidence_bars.plot_confidence_bands:function"
+inputs = [ "time_series:SECTION", "investment_assumption:SECTION",]
+outputs = [ "confidence_bands:SECTION",]
+skippable = "False:bool"
+
 [SCENARIO.calculate_investment]
-tasks = [ "calculate_initial_allocation:SECTION", "calculate_return_matrix:SECTION", "calculate_portfolio_evolution:SECTION", "calculate_summary_statistics:SECTION", "calculate_drawdown_statistics:SECTION", "calculate_time_series_statistics:SECTION",]
+tasks = [ "calculate_initial_allocation:SECTION", "calculate_return_matrix:SECTION", "calculate_portfolio_evolution:SECTION", "calculate_summary_statistics:SECTION", "calculate_drawdown_statistics:SECTION", "calculate_time_series_statistics:SECTION", "plot_confidence_bands:SECTION",]
 additional_data_nodes = [ "assets:SECTION",]
 
 [SCENARIO.calculate_investment.comparators]

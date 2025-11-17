@@ -69,4 +69,5 @@ with tgb.Page() as scenario_creation_page:
                 "selected_scenario_outcome",
                 "selected_summary_stats",
                 "selected_time_series",
+                "selected_confidence_bands",
             )

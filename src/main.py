@@ -67,6 +67,7 @@ if __name__ == "__main__":
         selected_summary_stats = scenario.summary_stats.read()
         selected_drawdown_statistics = scenario.drawdown_statistics.read()
         selected_time_series = scenario.time_series.read()
+        selected_confidence_bands = scenario.confidence_bands.read()
 
     # selected_scenario = None
     # selected_scenario_outcome = None

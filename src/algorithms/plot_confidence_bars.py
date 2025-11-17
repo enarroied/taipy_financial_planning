@@ -1,10 +1,12 @@
 import pandas as pd
 import plotly.graph_objects as go
 
+from context import InvestmentAssumption
+
 
 def plot_confidence_bands(
     time_stats: pd.DataFrame,
-    initial_capital: float,
+    investment_assumption: InvestmentAssumption,
     title: str = "Portfolio Value Over Time with Confidence Bands",
 ):
     """
@@ -12,12 +14,12 @@ def plot_confidence_bands(
 
     Args:
         time_stats: DataFrame from calculate_time_series_statistics
-        initial_capital: Starting investment amount
-        title: Chart title
+        investment_assumption: Get the initial capital
 
     Returns:
         Plotly figure
     """
+    initial_capital = investment_assumption.initial_capital
     fig = go.Figure()
 
     # Add confidence bands - 90% confidence band (p5 to p95)

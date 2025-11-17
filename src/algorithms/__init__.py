@@ -24,3 +24,6 @@ from algorithms.calculate_statistics import (
 from algorithms.calculate_statistics import (
     calculate_time_series_statistics as calculate_time_series_statistics,
 )
+from algorithms.plot_confidence_bars import (
+    plot_confidence_bands as plot_confidence_bands,
+)

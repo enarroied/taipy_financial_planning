@@ -38,6 +38,8 @@ def change_scenario(state):
             s.selected_scenario.investment_assumption.read()
         )
         s.selected_summary_stats = s.selected_scenario.summary_stats.read()
+        s.selected_time_series = s.selected_scenario.time_series.read()
+        s.selected_confidence_bands = s.selected_scenario.confidence_bands.read()
 
 
 def _select_pecentages(state):

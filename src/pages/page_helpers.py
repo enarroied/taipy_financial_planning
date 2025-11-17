@@ -52,7 +52,9 @@ def investment_scenario_selector(
             )
 
 
-def scenario_results_section(outcome_var: str, ss: str, time_series: str):
+def scenario_results_section(
+    outcome_var: str, ss: str, time_series: str, selected_confidence_bands: str
+):
     """
     outcome_var (str): The name of the pandas DataFrame with the Scenario's raw results
     ss (str): The name of the  SummaryStatistics instance
@@ -100,3 +102,5 @@ def scenario_results_section(outcome_var: str, ss: str, time_series: str):
                 page_size=5,
                 number_format="%,d",
             )
+
+            tgb.chart(figure=tpl(f"{selected_confidence_bands}"), rebuild=True)
