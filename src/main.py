@@ -21,6 +21,20 @@ pages = {
 stylekit = {
     "color_primary": "#5c0329",
 }
+
+
+def get_scenario_data(scenario_object):
+    return (
+        scenario_object,
+        scenario_object.result_portfolio.read(),
+        scenario_object.investment_assumption.read(),
+        scenario_object.summary_stats.read(),
+        scenario_object.drawdown_statistics.read(),
+        scenario_object.time_series.read(),
+        scenario_object.confidence_bands.read(),
+    )
+
+
 if __name__ == "__main__":
     number_trials = 1_000
     initial_capital = 10_000
@@ -61,13 +75,33 @@ if __name__ == "__main__":
     # Submit demo scenarios:
     for scenario in [scenario1, scenario2, scenario3]:
         scenario.submit()
-        selected_scenario = scenario
-        selected_scenario_outcome = scenario.result_portfolio.read()
-        selected_scenario_assumption = scenario.investment_assumption.read()
-        selected_summary_stats = scenario.summary_stats.read()
-        selected_drawdown_statistics = scenario.drawdown_statistics.read()
-        selected_time_series = scenario.time_series.read()
-        selected_confidence_bands = scenario.confidence_bands.read()
+    (
+        selected_scenario,
+        selected_scenario_outcome,
+        selected_scenario_assumption,
+        selected_summary_stats,
+        selected_drawdown_statistics,
+        selected_time_series,
+        selected_confidence_bands,
+    ) = get_scenario_data(scenario1)
+    (
+        comparison_scenario_1,
+        comparison_scenario_1_outcome,
+        comparison_scenario_1_assumption,
+        comparison_scenario_1_summary_stats,
+        comparison_scenario_1_drawdown_statistics,
+        comparison_scenario_1_time_series,
+        comparison_scenario_1_confidence_bands,
+    ) = get_scenario_data(scenario1)
+    (
+        comparison_scenario_2,
+        comparison_scenario_2_outcome,
+        comparison_scenario_2_assumption,
+        comparison_scenario_2_summary_stats,
+        comparison_scenario_2_drawdown_statistics,
+        comparison_scenario_2_time_series,
+        comparison_scenario_2_confidence_bands,
+    ) = get_scenario_data(scenario2)
 
     # selected_scenario = None
     # selected_scenario_outcome = None
