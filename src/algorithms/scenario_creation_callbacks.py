@@ -31,15 +31,13 @@ def create_scenario(state):
         change_scenario(s)
 
 
-def change_scenario(state):
+def change_scenario(state, var_name, scenario_var):
     with state as s:
-        s.selected_scenario_outcome = s.selected_scenario.result_portfolio.read()
-        s.selected_scenario_assumption = (
-            s.selected_scenario.investment_assumption.read()
-        )
-        s.selected_summary_stats = s.selected_scenario.summary_stats.read()
-        s.selected_time_series = s.selected_scenario.time_series.read()
-        s.selected_confidence_bands = s.selected_scenario.confidence_bands.read()
+        s.selected_scenario_outcome = scenario_var.result_portfolio.read()
+        s.selected_scenario_assumption = scenario_var.investment_assumption.read()
+        s.selected_summary_stats = scenario_var.summary_stats.read()
+        s.selected_time_series = scenario_var.time_series.read()
+        s.selected_confidence_bands = scenario_var.confidence_bands.read()
 
 
 def _select_pecentages(state):
