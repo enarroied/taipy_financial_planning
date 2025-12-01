@@ -32,12 +32,37 @@ def create_scenario(state):
 
 
 def change_scenario(state, var_name, scenario_var):
-    with state as s:
-        s.selected_scenario_outcome = scenario_var.result_portfolio.read()
-        s.selected_scenario_assumption = scenario_var.investment_assumption.read()
-        s.selected_summary_stats = scenario_var.summary_stats.read()
-        s.selected_time_series = scenario_var.time_series.read()
-        s.selected_confidence_bands = scenario_var.confidence_bands.read()
+    print(var_name)
+    if var_name == "selected_scenario":
+        with state as s:
+            s.selected_scenario_outcome = scenario_var.result_portfolio.read()
+            s.selected_scenario_assumption = scenario_var.investment_assumption.read()
+            s.selected_summary_stats = scenario_var.summary_stats.read()
+            s.selected_time_series = scenario_var.time_series.read()
+            s.selected_confidence_bands = scenario_var.confidence_bands.read()
+    elif var_name == "comparison_scenario_1":
+        with state as s:
+            s.comparison_scenario_1_outcome = scenario_var.result_portfolio.read()
+            s.comparison_scenario_1_assumption = (
+                scenario_var.investment_assumption.read()
+            )
+            s.comparison_scenario_1_summary_stats = scenario_var.summary_stats.read()
+            s.comparison_scenario_1_time_series = scenario_var.time_series.read()
+            s.comparison_scenario_1_confidence_bands = (
+                scenario_var.confidence_bands.read()
+            )
+
+    elif var_name == "comparison_scenario_2":
+        with state as s:
+            s.comparison_scenario_2_outcome = scenario_var.result_portfolio.read()
+            s.comparison_scenario_2_assumption = (
+                scenario_var.investment_assumption.read()
+            )
+            s.comparison_scenario_2_summary_stats = scenario_var.summary_stats.read()
+            s.comparison_scenario_2_time_series = scenario_var.time_series.read()
+            s.comparison_scenario_2_confidence_bands = (
+                scenario_var.confidence_bands.read()
+            )
 
 
 def _select_pecentages(state):
