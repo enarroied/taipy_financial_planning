@@ -31,7 +31,9 @@ def investment_scenario_selector(
     selected_scenario, selected_scenario_assumption, change_callback
 ):
     with tgb.part():
-        tgb.scenario_selector(tpl(selected_scenario), on_change=change_callback)
+        tgb.scenario_selector(
+            tpl(selected_scenario), on_change=change_callback, show_add_button=False
+        )
 
         create_card(
             "Initial Capital",
