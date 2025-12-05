@@ -28,11 +28,10 @@ def create_scenario(state):
         new_scenario.submit()
         s.selected_scenario_outcome = new_scenario.result_portfolio.read()
         s.selected_scenario = new_scenario
-        change_scenario(s)
+        change_scenario(s, var_name="selected_scenario", scenario_var=new_scenario)
 
 
 def change_scenario(state, var_name, scenario_var):
-    print(var_name)
     if var_name == "selected_scenario":
         with state as s:
             s.selected_scenario_outcome = scenario_var.result_portfolio.read()
@@ -51,7 +50,6 @@ def change_scenario(state, var_name, scenario_var):
             s.comparison_scenario_1_confidence_bands = (
                 scenario_var.confidence_bands.read()
             )
-
     elif var_name == "comparison_scenario_2":
         with state as s:
             s.comparison_scenario_2_outcome = scenario_var.result_portfolio.read()
