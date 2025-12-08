@@ -1,14 +1,14 @@
 h1, h2, h3 {
-    color: #5c0329
+    color: #7d1745
 }
 strong {
-    color: #ff016f;
+    color: #e91e63;
 }
 button:hover {
-  background-color: #ff016f !important;
+  background-color: #e91e63 !important;
   color: #fff;
 }
 .card-number{
-  color: #ff016f;
+  color: #e91e63;
   font-size: 22px !important;
 }

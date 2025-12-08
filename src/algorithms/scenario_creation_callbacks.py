@@ -50,6 +50,7 @@ def change_scenario(state, var_name, scenario_var):
             s.comparison_scenario_1_confidence_bands = (
                 scenario_var.confidence_bands.read()
             )
+            create_comparison(s)
     elif var_name == "comparison_scenario_2":
         with state as s:
             s.comparison_scenario_2_outcome = scenario_var.result_portfolio.read()
@@ -61,6 +62,63 @@ def change_scenario(state, var_name, scenario_var):
             s.comparison_scenario_2_confidence_bands = (
                 scenario_var.confidence_bands.read()
             )
+            create_comparison(s)
+
+def create_comparison(state):
+    """Creates the values to compare one Scenario to another"""
+    with state as s:
+        reference_scenario = s.comparison_scenario_1
+        scenario_for_comparison = s.comparison_scenario_2
+
+        # Get all comparison metrics
+        comparison_results = calculate_scenario_comparison(
+            reference_scenario,
+            scenario_for_comparison
+        )
+
+        # Update state with all results
+        for key, value in comparison_results.items():
+            setattr(s, key, value)
+
+def calculate_scenario_comparison(reference_scenario, comparison_scenario):
+    """
+    Compare two scenarios and return all comparison metrics.
+
+    Args:
+        reference_scenario: First scenario object (Scenario 1)
+        comparison_scenario: Second scenario object (Scenario 2)
+
+    Returns:
+        Dictionary with all comparison metrics
+    """
+    reference_stats = reference_scenario.summary_stats.read()
+    comparison_stats = comparison_scenario.summary_stats.read()
+
+    # List of metrics to compare: (attribute_name, prefix_for_state_vars)
+    metrics = [
+        ('mean_total_return', 'comp_mean_total_return'),
+        ('mean_pct_return', 'comp_mean_pct_return'),
+        ('mean_cagr', 'comp_mean_cagr'),
+        ('mean_final_value', 'comp_mean_final_value'),
+        ('std_total_return', 'comp_std_total_return'),
+        ('std_pct_return', 'comp_std_pct_return'),
+        ('prob_loss', 'comp_prob_loss'),
+        ('percentile_5', 'comp_percentile_5'),
+        ('percentile_95', 'comp_percentile_95'),
+    ]
+
+    comparison_results = {}
+
+    for attr_name, prefix in metrics:
+        reference_value = getattr(reference_stats, attr_name)
+        comparison_value = getattr(comparison_stats, attr_name)
+
+        comparison_results[f'{prefix}_value'] = reference_value
+        comparison_results[f'{prefix}_threshold'] = comparison_value
+        comparison_results[f'{prefix}_delta'] = reference_value - comparison_value
+
+    return comparison_results
+
 
 
 def _select_pecentages(state):

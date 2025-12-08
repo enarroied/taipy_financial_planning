@@ -11,6 +11,7 @@ from pages import (
     scenario_comparison_page,
     scenario_creation_page,
 )
+from algorithms.scenario_creation_callbacks import calculate_scenario_comparison
 
 pages = {
     "/": root,
@@ -103,8 +104,49 @@ if __name__ == "__main__":
         comparison_scenario_2_confidence_bands,
     ) = get_scenario_data(scenario2)
 
-    # selected_scenario = None
-    # selected_scenario_outcome = None
+    comparison_metrics = calculate_scenario_comparison(
+        comparison_scenario_1,
+        comparison_scenario_2
+    )
+
+    # Unpack all comparison values
+    comp_mean_total_return_value = comparison_metrics['comp_mean_total_return_value']
+    comp_mean_total_return_threshold = comparison_metrics['comp_mean_total_return_threshold']
+    comp_mean_total_return_delta = comparison_metrics['comp_mean_total_return_delta']
+
+    comp_mean_pct_return_value = comparison_metrics['comp_mean_pct_return_value']
+    comp_mean_pct_return_threshold = comparison_metrics['comp_mean_pct_return_threshold']
+    comp_mean_pct_return_delta = comparison_metrics['comp_mean_pct_return_delta']
+
+    comp_mean_cagr_value = comparison_metrics['comp_mean_cagr_value']
+    comp_mean_cagr_threshold = comparison_metrics['comp_mean_cagr_threshold']
+    comp_mean_cagr_delta = comparison_metrics['comp_mean_cagr_delta']
+
+    comp_mean_final_value_value = comparison_metrics['comp_mean_final_value_value']
+    comp_mean_final_value_threshold = comparison_metrics['comp_mean_final_value_threshold']
+    comp_mean_final_value_delta = comparison_metrics['comp_mean_final_value_delta']
+
+    comp_std_total_return_value = comparison_metrics['comp_std_total_return_value']
+    comp_std_total_return_threshold = comparison_metrics['comp_std_total_return_threshold']
+    comp_std_total_return_delta = comparison_metrics['comp_std_total_return_delta']
+
+    comp_std_pct_return_value = comparison_metrics['comp_std_pct_return_value']
+    comp_std_pct_return_threshold = comparison_metrics['comp_std_pct_return_threshold']
+    comp_std_pct_return_delta = comparison_metrics['comp_std_pct_return_delta']
+
+    comp_prob_loss_value = comparison_metrics['comp_prob_loss_value']
+    comp_prob_loss_threshold = comparison_metrics['comp_prob_loss_threshold']
+    comp_prob_loss_delta = comparison_metrics['comp_prob_loss_delta']
+
+    comp_percentile_5_value = comparison_metrics['comp_percentile_5_value']
+    comp_percentile_5_threshold = comparison_metrics['comp_percentile_5_threshold']
+    comp_percentile_5_delta = comparison_metrics['comp_percentile_5_delta']
+
+    comp_percentile_95_value = comparison_metrics['comp_percentile_95_value']
+    comp_percentile_95_threshold = comparison_metrics['comp_percentile_95_threshold']
+    comp_percentile_95_delta = comparison_metrics['comp_percentile_95_delta']
+
+
 
     Gui(pages=pages, css_file="css/main.css").run(
         title="Investment 💵 Scenarios",
