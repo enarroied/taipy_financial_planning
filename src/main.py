@@ -3,6 +3,7 @@ import taipy as tp
 from taipy import Orchestrator
 from taipy.gui import Gui
 
+from algorithms.scenario_creation_callbacks import calculate_scenario_comparison
 from config import asset_nodes_config
 from create_demo_scenarios import scenario1, scenario2, scenario3
 from pages import (
@@ -11,7 +12,6 @@ from pages import (
     scenario_comparison_page,
     scenario_creation_page,
 )
-from algorithms.scenario_creation_callbacks import calculate_scenario_comparison
 
 pages = {
     "/": root,
@@ -105,48 +105,79 @@ if __name__ == "__main__":
     ) = get_scenario_data(scenario2)
 
     comparison_metrics = calculate_scenario_comparison(
-        comparison_scenario_1,
-        comparison_scenario_2
+        comparison_scenario_1, comparison_scenario_2
     )
 
     # Unpack all comparison values
-    comp_mean_total_return_value = comparison_metrics['comp_mean_total_return_value']
-    comp_mean_total_return_threshold = comparison_metrics['comp_mean_total_return_threshold']
-    comp_mean_total_return_delta = comparison_metrics['comp_mean_total_return_delta']
+    comp_mean_total_return_value = comparison_metrics["comp_mean_total_return_value"]
+    comp_mean_total_return_threshold = comparison_metrics[
+        "comp_mean_total_return_threshold"
+    ]
+    comp_mean_total_return_delta = comparison_metrics["comp_mean_total_return_delta"]
+    comp_mean_total_return_max_value = comparison_metrics[
+        "comp_mean_total_return_max_value"
+    ]
+    comp_mean_total_return_figure = comparison_metrics["comp_mean_total_return_figure"]
 
-    comp_mean_pct_return_value = comparison_metrics['comp_mean_pct_return_value']
-    comp_mean_pct_return_threshold = comparison_metrics['comp_mean_pct_return_threshold']
-    comp_mean_pct_return_delta = comparison_metrics['comp_mean_pct_return_delta']
+    comp_mean_pct_return_value = comparison_metrics["comp_mean_pct_return_value"]
+    comp_mean_pct_return_threshold = comparison_metrics[
+        "comp_mean_pct_return_threshold"
+    ]
+    comp_mean_pct_return_delta = comparison_metrics["comp_mean_pct_return_delta"]
+    comp_mean_pct_return_max_value = comparison_metrics[
+        "comp_mean_pct_return_max_value"
+    ]
+    comp_mean_pct_return_figure = comparison_metrics["comp_mean_pct_return_figure"]
 
-    comp_mean_cagr_value = comparison_metrics['comp_mean_cagr_value']
-    comp_mean_cagr_threshold = comparison_metrics['comp_mean_cagr_threshold']
-    comp_mean_cagr_delta = comparison_metrics['comp_mean_cagr_delta']
+    comp_mean_cagr_value = comparison_metrics["comp_mean_cagr_value"]
+    comp_mean_cagr_threshold = comparison_metrics["comp_mean_cagr_threshold"]
+    comp_mean_cagr_delta = comparison_metrics["comp_mean_cagr_delta"]
+    comp_mean_cagr_max_value = comparison_metrics["comp_mean_cagr_max_value"]
+    comp_mean_cagr_figure = comparison_metrics["comp_mean_cagr_figure"]
 
-    comp_mean_final_value_value = comparison_metrics['comp_mean_final_value_value']
-    comp_mean_final_value_threshold = comparison_metrics['comp_mean_final_value_threshold']
-    comp_mean_final_value_delta = comparison_metrics['comp_mean_final_value_delta']
+    comp_mean_final_value_value = comparison_metrics["comp_mean_final_value_value"]
+    comp_mean_final_value_threshold = comparison_metrics[
+        "comp_mean_final_value_threshold"
+    ]
+    comp_mean_final_value_delta = comparison_metrics["comp_mean_final_value_delta"]
+    comp_mean_final_value_max_value = comparison_metrics[
+        "comp_mean_final_value_max_value"
+    ]
+    comp_mean_final_value_figure = comparison_metrics["comp_mean_final_value_figure"]
 
-    comp_std_total_return_value = comparison_metrics['comp_std_total_return_value']
-    comp_std_total_return_threshold = comparison_metrics['comp_std_total_return_threshold']
-    comp_std_total_return_delta = comparison_metrics['comp_std_total_return_delta']
+    comp_std_total_return_value = comparison_metrics["comp_std_total_return_value"]
+    comp_std_total_return_threshold = comparison_metrics[
+        "comp_std_total_return_threshold"
+    ]
+    comp_std_total_return_delta = comparison_metrics["comp_std_total_return_delta"]
+    comp_std_total_return_max_value = comparison_metrics[
+        "comp_std_total_return_max_value"
+    ]
+    comp_std_total_return_figure = comparison_metrics["comp_std_total_return_figure"]
 
-    comp_std_pct_return_value = comparison_metrics['comp_std_pct_return_value']
-    comp_std_pct_return_threshold = comparison_metrics['comp_std_pct_return_threshold']
-    comp_std_pct_return_delta = comparison_metrics['comp_std_pct_return_delta']
+    comp_std_pct_return_value = comparison_metrics["comp_std_pct_return_value"]
+    comp_std_pct_return_threshold = comparison_metrics["comp_std_pct_return_threshold"]
+    comp_std_pct_return_delta = comparison_metrics["comp_std_pct_return_delta"]
+    comp_std_pct_return_max_value = comparison_metrics["comp_std_pct_return_max_value"]
+    comp_std_pct_return_figure = comparison_metrics["comp_std_pct_return_figure"]
 
-    comp_prob_loss_value = comparison_metrics['comp_prob_loss_value']
-    comp_prob_loss_threshold = comparison_metrics['comp_prob_loss_threshold']
-    comp_prob_loss_delta = comparison_metrics['comp_prob_loss_delta']
+    comp_prob_loss_value = comparison_metrics["comp_prob_loss_value"]
+    comp_prob_loss_threshold = comparison_metrics["comp_prob_loss_threshold"]
+    comp_prob_loss_delta = comparison_metrics["comp_prob_loss_delta"]
+    comp_prob_loss_max_value = comparison_metrics["comp_prob_loss_max_value"]
+    comp_prob_loss_figure = comparison_metrics["comp_prob_loss_figure"]
 
-    comp_percentile_5_value = comparison_metrics['comp_percentile_5_value']
-    comp_percentile_5_threshold = comparison_metrics['comp_percentile_5_threshold']
-    comp_percentile_5_delta = comparison_metrics['comp_percentile_5_delta']
+    comp_percentile_5_value = comparison_metrics["comp_percentile_5_value"]
+    comp_percentile_5_threshold = comparison_metrics["comp_percentile_5_threshold"]
+    comp_percentile_5_delta = comparison_metrics["comp_percentile_5_delta"]
+    comp_percentile_5_max_value = comparison_metrics["comp_percentile_5_max_value"]
+    comp_percentile_5_figure = comparison_metrics["comp_percentile_5_figure"]
 
-    comp_percentile_95_value = comparison_metrics['comp_percentile_95_value']
-    comp_percentile_95_threshold = comparison_metrics['comp_percentile_95_threshold']
-    comp_percentile_95_delta = comparison_metrics['comp_percentile_95_delta']
-
-
+    comp_percentile_95_value = comparison_metrics["comp_percentile_95_value"]
+    comp_percentile_95_threshold = comparison_metrics["comp_percentile_95_threshold"]
+    comp_percentile_95_delta = comparison_metrics["comp_percentile_95_delta"]
+    comp_percentile_95_max_value = comparison_metrics["comp_percentile_95_max_value"]
+    comp_percentile_95_figure = comparison_metrics["comp_percentile_95_figure"]
 
     Gui(pages=pages, css_file="css/main.css").run(
         title="Investment 💵 Scenarios",

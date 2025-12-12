@@ -6,6 +6,7 @@ from algorithms.callback_helpers import (
     cond_neq_notify,
     has_nonempty_duplicates_notify,
 )
+from algorithms.plot_kpis import indicator_metric
 from config import generate_investment_scenario_config
 from context import Asset, InvestmentAssumption
 
@@ -64,6 +65,7 @@ def change_scenario(state, var_name, scenario_var):
             )
             create_comparison(s)
 
+
 def create_comparison(state):
     """Creates the values to compare one Scenario to another"""
     with state as s:
@@ -72,13 +74,13 @@ def create_comparison(state):
 
         # Get all comparison metrics
         comparison_results = calculate_scenario_comparison(
-            reference_scenario,
-            scenario_for_comparison
+            reference_scenario, scenario_for_comparison
         )
 
         # Update state with all results
         for key, value in comparison_results.items():
             setattr(s, key, value)
+
 
 def calculate_scenario_comparison(reference_scenario, comparison_scenario):
     """
@@ -96,15 +98,15 @@ def calculate_scenario_comparison(reference_scenario, comparison_scenario):
 
     # List of metrics to compare: (attribute_name, prefix_for_state_vars)
     metrics = [
-        ('mean_total_return', 'comp_mean_total_return'),
-        ('mean_pct_return', 'comp_mean_pct_return'),
-        ('mean_cagr', 'comp_mean_cagr'),
-        ('mean_final_value', 'comp_mean_final_value'),
-        ('std_total_return', 'comp_std_total_return'),
-        ('std_pct_return', 'comp_std_pct_return'),
-        ('prob_loss', 'comp_prob_loss'),
-        ('percentile_5', 'comp_percentile_5'),
-        ('percentile_95', 'comp_percentile_95'),
+        ("mean_total_return", "comp_mean_total_return"),
+        ("mean_pct_return", "comp_mean_pct_return"),
+        ("mean_cagr", "comp_mean_cagr"),
+        ("mean_final_value", "comp_mean_final_value"),
+        ("std_total_return", "comp_std_total_return"),
+        ("std_pct_return", "comp_std_pct_return"),
+        ("prob_loss", "comp_prob_loss"),
+        ("percentile_5", "comp_percentile_5"),
+        ("percentile_95", "comp_percentile_95"),
     ]
 
     comparison_results = {}
@@ -113,12 +115,20 @@ def calculate_scenario_comparison(reference_scenario, comparison_scenario):
         reference_value = getattr(reference_stats, attr_name)
         comparison_value = getattr(comparison_stats, attr_name)
 
-        comparison_results[f'{prefix}_value'] = reference_value
-        comparison_results[f'{prefix}_threshold'] = comparison_value
-        comparison_results[f'{prefix}_delta'] = reference_value - comparison_value
-
+        comparison_results[f"{prefix}_value"] = reference_value
+        comparison_results[f"{prefix}_threshold"] = comparison_value
+        delta = reference_value - comparison_value
+        comparison_results[f"{prefix}_delta"] = delta
+        max_value = max(reference_value, comparison_value)
+        comparison_results[f"{prefix}_max_value"] = max_value
+        comparison_results[f"{prefix}_figure"] = indicator_metric(
+            value=reference_value,
+            threshold=comparison_value,
+            delta=delta,
+            max_value=max_value,
+            title=prefix,
+        )
     return comparison_results
-
 
 
 def _select_pecentages(state):
