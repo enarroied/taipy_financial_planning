@@ -26,71 +26,22 @@ with tgb.Page() as scenario_comparison_page:
     tgb.text("### Return Metrics", mode="md")
     with tgb.layout("1 1 1 1"):
         tgb.chart(figure="{comp_mean_total_return_figure}")
-
-        tgb.metric(
-            "{comp_mean_pct_return_value}",
-            delta="{comp_mean_pct_return_delta}",
-            threshold="{comp_mean_pct_return_threshold}",
-            max="{comp_mean_pct_return_max_value}",
-            title="Mean % Return",
-        )
-        tgb.metric(
-            "{comp_mean_cagr_value}",
-            delta="{comp_mean_cagr_delta}",
-            threshold="{comp_mean_cagr_threshold}",
-            max="{comp_mean_cagr_max_value}",
-            title="Mean CAGR",
-        )
-        tgb.metric(
-            "{comp_mean_final_value_value}",
-            delta="{comp_mean_final_value_delta}",
-            threshold="{comp_mean_final_value_threshold}",
-            max="{comp_mean_final_value_max_value}",
-            title="Mean Final Value",
-        )
+        tgb.chart(figure="{comp_mean_pct_return_figure}")
+        tgb.chart(figure="{comp_mean_cagr_figure}")
+        tgb.chart(figure="{comp_mean_final_value_figure}")
 
     tgb.html("hr")
     tgb.text("### Risk Metrics", mode="md")
     with tgb.layout("1 1 1"):
-        tgb.metric(
-            "{comp_std_total_return_value}",
-            delta="{comp_std_total_return_delta}",
-            threshold="{comp_std_total_return_threshold}",
-            max="{comp_std_total_return_max_value}",
-            title="Std Dev - Total Return",
-        )
-        tgb.metric(
-            "{comp_std_pct_return_value}",
-            delta="{comp_std_pct_return_delta}",
-            threshold="{comp_std_pct_return_threshold}",
-            max="{comp_std_pct_return_max_value}",
-            title="Std Dev - % Return",
-        )
-        tgb.metric(
-            "{comp_prob_loss_value}",
-            delta="{comp_prob_loss_delta}",
-            threshold="{comp_prob_loss_threshold}",
-            max="{comp_prob_loss_max_value}",
-            title="Probability of Loss (%)",
-        )
+        tgb.chart(figure="{comp_std_total_return_figure}")
+        tgb.chart(figure="{comp_std_pct_return_figure}")
+        tgb.chart(figure="{comp_prob_loss_figure}")
 
     tgb.html("hr")
     tgb.text("### Distribution Metrics", mode="md")
     with tgb.layout("1 1"):
-        tgb.metric(
-            "{comp_percentile_5_value}",
-            delta="{comp_percentile_5_delta}",
-            threshold="{comp_percentile_5_threshold}",
-            max="{comp_percentile_5_max_value}",
-            title="5th Percentile (Downside)",
-        )
-        tgb.metric(
-            "{comp_percentile_95_value}",
-            delta="{comp_percentile_95_delta}",
-            threshold="{comp_percentile_95_threshold}",
-            max="{comp_percentile_95_max_value}",
-            title="95th Percentile (Upside)",
-        )
+        tgb.chart(figure="{comp_percentile_5_figure}")
+        tgb.chart(figure="{comp_percentile_95_figure}")
 
     tgb.text("## **Side by Side** Comparison", mode="md")
     with tgb.layout("1 1"):
