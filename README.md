@@ -9,7 +9,8 @@
     - [Key Features](#key-features)
   - [Quick Start](#quick-start)
     - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
+    - [Basic Installation](#basic-installation)
+    - [Docker Image](#docker-image)
   - [How to Use](#how-to-use)
     - [1. Asset Management](#1-asset-management)
     - [2. Create Investment Scenarios](#2-create-investment-scenarios)
@@ -48,7 +49,7 @@ This application helps you visualize the uncertainty in investment returns by ru
 - Python 3.9 or higher
 - pip or uv package manager
 
-### Installation
+### Basic Installation
 
 1. Clone the repository:
 
@@ -84,6 +85,20 @@ uv run --directory  src main.py
 ```
 
 The application will start on `http://localhost:5000`
+
+### Docker Image
+
+The app provides a dockerfile. You can create an image with the following command (here, `finder-image` is the image name, you can give it any other name):
+
+```bash
+docker build -t financial-planning .
+```
+
+Then you can ruin the image:
+
+```bash
+docker run -p 5000:5000 financial-planning
+```
 
 ## How to Use
 
