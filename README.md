@@ -1,8 +1,8 @@
 # Taipy Financial Planning
 
-![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![Python](https://img.shields.io/badge/python-3.12-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Taipy](https://img.shields.io/badge/taipy-latest-orange.svg)
+![Taipy](https://img.shields.io/badge/taipy-4.1-orange.svg)
 
 - [Taipy Financial Planning](#taipy-financial-planning)
   - [What is This App?](#what-is-this-app)
@@ -10,7 +10,7 @@
   - [Quick Start](#quick-start)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
-  - [📖 How to Use](#-how-to-use)
+  - [How to Use](#how-to-use)
     - [1. Asset Management](#1-asset-management)
     - [2. Create Investment Scenarios](#2-create-investment-scenarios)
     - [3. Compare Scenarios](#3-compare-scenarios)
@@ -85,7 +85,7 @@ uv run --directory  src main.py
 
 The application will start on `http://localhost:5000`
 
-## 📖 How to Use
+## How to Use
 
 ### 1. Asset Management
 
