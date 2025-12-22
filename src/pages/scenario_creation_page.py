@@ -12,13 +12,14 @@ with tgb.Page() as scenario_creation_page:
 
     with tgb.expandable(title="Scenario Creation", expanded=False):
         with tgb.layout("1 1 1"):
-            tgb.slider(
-                "{number_trials}",
-                min=500,
-                max=2_000,
-                labem="Number of Trials",
-                step=500,
-            )
+            with tgb.layout("1 1"):
+                tgb.text("Number of Trials", mode="md")
+                tgb.slider(
+                    "{number_trials}",
+                    min=500,
+                    max=2_000,
+                    step=500,
+                )
             tgb.number(
                 "{initial_capital}",
                 min=1_000,
