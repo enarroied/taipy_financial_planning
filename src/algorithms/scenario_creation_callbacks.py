@@ -16,7 +16,7 @@ def create_scenario(state):
         all_percentages = _select_pecentages(s)
         all_products = _select_products(s)
         portfolio_composition, total_percentage = _create_portfolio_composition(
-            state, all_products, all_percentages
+            s, all_products, all_percentages
         )
         if _check_conditions(s, total_percentage, all_products):
             return
@@ -189,14 +189,18 @@ def _create_portfolio_composition(state, all_products, all_percentages):
 
 
 def _check_conditions(state, total_percentage, all_products):
-    # By multiplying all binary flags, we get True if one is True
     sc_names = [scenario.name for scenario in tp.get_scenarios()]
+
     with state as s:
-        return (
-            cond_eq_notify(s, (s.new_scenario_name, ""), "Scenario has no name!")
-            * cond_in_notify(
-                s, (s.new_scenario_name, sc_names), "Scenario name Exists!"
-            )
-            * has_nonempty_duplicates_notify(s, all_products, "Duplicate Assets!")
-            * cond_neq_notify(s, (total_percentage, 100), "All products must sum 100%!")
+        return any(
+            [
+                cond_eq_notify(s, (s.new_scenario_name, ""), "Scenario has no name!"),
+                cond_in_notify(
+                    s, (s.new_scenario_name, sc_names), "Scenario name Exists!"
+                ),
+                has_nonempty_duplicates_notify(s, all_products, "Duplicate Assets!"),
+                cond_neq_notify(
+                    s, (total_percentage, 100), "All products must sum 100%!"
+                ),
+            ]
         )
