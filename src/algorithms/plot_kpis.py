@@ -54,5 +54,5 @@ def indicator_metric(
             title={},
         )
     )
-    fig.update_layout(width=width, height=height, margin=dict(t=5, b=5, l=5, r=5))
+    fig.update_layout(width=width, height=height)
     return fig
