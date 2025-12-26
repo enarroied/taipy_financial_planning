@@ -15,6 +15,7 @@
     - [1. Asset Management](#1-asset-management)
     - [2. Create Investment Scenarios](#2-create-investment-scenarios)
     - [3. Compare Scenarios](#3-compare-scenarios)
+  - [Video Presentation](#video-presentation)
   - [Architecture](#architecture)
     - [Project Structure](#project-structure)
     - [Data Flow](#data-flow)
@@ -152,6 +153,12 @@ Visit the **Compare Scenarios** page to evaluate different strategies:
   - Distribution metrics (5th and 95th percentiles)
 - Interactive gauge charts show which scenario performs better
 - Full detailed breakdowns help you understand the tradeoffs
+
+## Video Presentation
+
+Here's a video presentation of the application:
+
+[![Taipy Financial Planning Thumbnail for YouTube link](img/thumbnail_montecarlo.png)](https://youtu.be/Oe-OU7o3fh0)
 
 ## Architecture
 
