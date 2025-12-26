@@ -24,7 +24,7 @@ with tgb.Page() as asset_creation_page:
         tgb.toggle(
             "{asset_for_edit_distribution_type}",
             lov=["normal", "lognormal"],
-            label="asset type",
+            label="distribution type",
             class_name="fullwidth",
         )
         tgb.number(
