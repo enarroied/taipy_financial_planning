@@ -17,7 +17,7 @@ pages = {
     "/": root,
     "asset_creation": asset_creation_page,
     "scenario_creation": scenario_creation_page,
-    "compare_scenarios": scenario_comparison_page,
+    "scenario_comparison": scenario_comparison_page,
 }
 stylekit = {
     "color_primary": "#5c0329",
