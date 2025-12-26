@@ -32,6 +32,8 @@ Financial planning application built with [Taipy](https://www.taipy.io/) that us
 
 This application helps you visualize the uncertainty in investment returns by running thousands of simulations based on probability distributions. Instead of getting a single prediction, you see a range of possible outcomes, helping you make more informed investment decisions.
 
+![gif animation of the application](./img/financial_app_gif.gif)
+
 ### Key Features
 
 - 🎲 **Monte Carlo Simulations**: Run 500-2,000 trials to explore possible portfolio outcomes
