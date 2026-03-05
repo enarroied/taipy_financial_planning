@@ -46,7 +46,6 @@ def make_results_df(
     calculate_portfolio_evolution. Each iteration has a monotonically
     growing total so drawdown tests behave predictably unless overridden.
     """
-    num_trials = len(final_values)
     rows = []
     for i, final_val in enumerate(final_values, start=1):
         for year in range(1, horizon_years + 1):

@@ -176,7 +176,8 @@ class TestCalculateReturnMatrix:
         assert not np.array_equal(r1, r2)
 
     def test_normal_distribution_rarely_negative(self):
-        """Multiplicative returns from normal dist should be >0 for typical equity params."""
+        """Multiplicative returns from normal dist should be >0 for typical equity
+        params."""
         stocks = make_asset(
             "Stocks", distribution_type="normal", mean_return=0.08, std_dev=0.15
         )
@@ -212,7 +213,8 @@ class TestCalculateReturnMatrix:
             calculate_return_matrix(assumption, seed=0)
 
     def test_distribution_type_is_case_insensitive(self):
-        """distribution_type matching should be case-insensitive per the lower() call."""
+        """distribution_type matching should be case-insensitive per the lower()
+        call."""
         stocks = make_asset(
             "Stocks", distribution_type="Normal", mean_return=0.07, std_dev=0.1
         )
@@ -304,7 +306,8 @@ class TestCalculatePortfolioEvolution:
             )
 
     def test_portfolio_grows_on_average(self, base_setup):
-        """With positive expected returns, the mean final value should exceed initial capital."""
+        """With positive expected returns, the mean final value should exceed initial
+        capital."""
         df, _ = base_setup
         final_year_totals = df[df["year"] == df["year"].max()]["total"]
         assert final_year_totals.mean() > 100_000
@@ -333,7 +336,8 @@ class TestCalculatePortfolioEvolution:
         np.testing.assert_allclose(df["total"].values, df["Stocks"].values, rtol=1e-10)
 
     def test_year_one_values_reflect_initial_capital(self):
-        """Year-1 totals should be initial_capital × the single-year return, not compounded."""
+        """Year-1 totals should be initial_capital × the single-year return, not
+        compounded."""
         stocks = make_asset("Stocks", distribution_type="lognormal")
         assumption = make_investment_assumption(
             initial_capital=100_000,
@@ -347,6 +351,6 @@ class TestCalculatePortfolioEvolution:
             initial_allocations, return_matrix, assumption
         )
 
-        year1 = df[df["year"] == 1]["total"].values
+        year1 = df[df["year"] == 1]["total"].to_numpy()
         expected = return_matrix[:, 0, 0] * 100_000
         np.testing.assert_allclose(year1, expected, rtol=1e-10)
