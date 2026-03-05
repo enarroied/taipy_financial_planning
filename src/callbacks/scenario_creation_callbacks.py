@@ -1,4 +1,5 @@
 import taipy as tp
+from taipy_utils import taipy_callback
 
 from algorithms.plot_kpis import indicator_metric
 from callbacks.callback_helpers import (
@@ -11,6 +12,7 @@ from config import generate_investment_scenario_config
 from context import Asset, InvestmentAssumption
 
 
+@taipy_callback
 def create_scenario(state):
     with state as s:
         all_percentages = _select_pecentages(s)
@@ -32,6 +34,7 @@ def create_scenario(state):
         change_scenario(s, var_name="selected_scenario", scenario_var=new_scenario)
 
 
+@taipy_callback
 def change_scenario(state, var_name, scenario_var):
     if var_name == "selected_scenario":
         with state as s:
@@ -66,6 +69,7 @@ def change_scenario(state, var_name, scenario_var):
             create_comparison(s)
 
 
+@taipy_callback
 def create_comparison(state):
     """Creates the values to compare one Scenario to another"""
     with state as s:
@@ -82,6 +86,7 @@ def create_comparison(state):
             setattr(s, key, value)
 
 
+@taipy_callback
 def calculate_scenario_comparison(reference_scenario, comparison_scenario):
     """
     Compare two scenarios and return all comparison metrics.

@@ -1,8 +1,10 @@
 from taipy.gui import notify
+from taipy_utils import taipy_callback
 
 from callbacks.callback_helpers import cond_eq_notify, cond_in_notify
 
 
+@taipy_callback
 def delete_asset(state):
     with state as s:
         asset_nodes_dict = s.asset_nodes.read()
@@ -12,6 +14,7 @@ def delete_asset(state):
         s.asset_nodes.write(asset_nodes_dict)
 
 
+@taipy_callback
 def open_close_delete_asset_dialog(state, vars, payload):
     if payload.get("args") == [0]:  # Selected YES to delete asset
         delete_asset(state)
@@ -22,6 +25,7 @@ def open_close_delete_asset_dialog(state, vars, payload):
         s.delete_asset_dialog = not current
 
 
+@taipy_callback
 def create_new_asset(state):
     with state as s:
         asset_name = s.new_asset_name
@@ -47,6 +51,7 @@ def _add_empty_asset(asset_dict, asset_name):
     return asset_dict
 
 
+@taipy_callback
 def select_asset_for_edit(state):
     with state as s:
         asset_nodes_dict = s.asset_nodes.read()
@@ -56,6 +61,7 @@ def select_asset_for_edit(state):
         s.asset_for_edit_std_dev = asset_dict.get("std_dev")
 
 
+@taipy_callback
 def edit_asset(state):
     with state as s:
         if s.selected_asset_for_edit == "":

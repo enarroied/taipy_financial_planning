@@ -8,6 +8,7 @@ dependencies = [
     "jupyter>=1.1.1",
     "plotly>=6.4.0",
     "taipy>=4.1.1",
+    "taipy-utils>=0.1.1",
 ]
 
 [dependency-groups]
