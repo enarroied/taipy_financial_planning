@@ -3,6 +3,8 @@
 ![Python](https://img.shields.io/badge/python-3.12-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Taipy](https://img.shields.io/badge/taipy-4.1.1-orange.svg)
+[![codecov](https://codecov.io/github/enarroied/taipy_financial_planning/branch/master/graph/badge.svg?token=HLZVB6WFMT)](https://codecov.io/github/enarroied/taipy_financial_planning)
+![Tests](https://github.com/enarroied/taipy_financial_planning/actions/workflows/tests.yml/badge.svg)
 
 - [Taipy Financial Planning](#taipy-financial-planning)
   - [What is This App?](#what-is-this-app)
