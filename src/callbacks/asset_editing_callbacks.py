@@ -1,6 +1,6 @@
 from taipy.gui import notify
 
-from algorithms.callback_helpers import cond_eq_notify, cond_in_notify
+from callbacks.callback_helpers import cond_eq_notify, cond_in_notify
 
 
 def delete_asset(state):

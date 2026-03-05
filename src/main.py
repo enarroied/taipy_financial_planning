@@ -3,7 +3,7 @@ import taipy as tp
 from taipy import Orchestrator
 from taipy.gui import Gui
 
-from algorithms.scenario_creation_callbacks import calculate_scenario_comparison
+from callbacks.scenario_creation_callbacks import calculate_scenario_comparison
 from config import asset_nodes_config
 from create_demo_scenarios import scenario1, scenario2, scenario3
 from pages import (

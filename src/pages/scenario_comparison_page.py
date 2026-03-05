@@ -1,6 +1,6 @@
 import taipy.gui.builder as tgb
 
-from algorithms.scenario_creation_callbacks import change_scenario
+from callbacks.scenario_creation_callbacks import change_scenario
 from pages.page_helpers import (
     investment_scenario_selector,
     scenario_results_section,

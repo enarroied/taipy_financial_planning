@@ -1,6 +1,6 @@
 import taipy.gui.builder as tgb
 
-from algorithms import (
+from callbacks import (
     create_new_asset,
     edit_asset,
     open_close_delete_asset_dialog,

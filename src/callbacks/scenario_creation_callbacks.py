@@ -1,12 +1,12 @@
 import taipy as tp
 
-from algorithms.callback_helpers import (
+from algorithms.plot_kpis import indicator_metric
+from callbacks.callback_helpers import (
     cond_eq_notify,
     cond_in_notify,
     cond_neq_notify,
     has_nonempty_duplicates_notify,
 )
-from algorithms.plot_kpis import indicator_metric
 from config import generate_investment_scenario_config
 from context import Asset, InvestmentAssumption
 
