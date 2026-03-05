@@ -23,3 +23,6 @@ dev = [
 [tool.pytest.ini_options]
 addopts = "--cov=src --cov-report=term-missing --cov-report=html"
 testpaths = ["tests"]
+filterwarnings = [
+    "ignore::marshmallow.warnings.RemovedInMarshmallow4Warning",
+]
