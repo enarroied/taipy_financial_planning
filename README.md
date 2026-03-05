@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.12-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Taipy](https://img.shields.io/badge/taipy-4.1-orange.svg)
+![Taipy](https://img.shields.io/badge/taipy-4.1.1-orange.svg)
 
 - [Taipy Financial Planning](#taipy-financial-planning)
   - [What is This App?](#what-is-this-app)
